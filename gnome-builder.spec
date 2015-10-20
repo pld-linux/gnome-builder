@@ -23,8 +23,7 @@ BuildRequires:	gnome-common
 BuildRequires:	gobject-introspection-devel >= 1.42.0
 BuildRequires:	gtk+3-devel >= 3.18.0
 BuildRequires:	gtk-doc >= 1.11
-# TODO: for html-preview
-#BuildRequires:	gtk-webkit4-devel >= 2.8.4
+BuildRequires:	gtk-webkit4-devel >= 2.8.4
 BuildRequires:	gtksourceview3-devel >= 3.18.0
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	libgit2-glib-devel >= 0.23.4
@@ -176,41 +175,65 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/gnome-builder/ide-mine-projects
 %attr(755,root,root) %{_libdir}/gnome-builder/ide-search
 %dir %{_libdir}/gnome-builder/plugins
+%dir %{_datadir}/gnome-builder
+%{_datadir}/gnome-builder/fonts
+%dir %{_datadir}/gnome-builder/plugins
 
 %{_libdir}/gnome-builder/plugins/autotools.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libautotools-plugin.so
+
 %{_libdir}/gnome-builder/plugins/c-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libc-pack-plugin.so
+
 %{_libdir}/gnome-builder/plugins/clang.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libclang-plugin.so
+
 %{_libdir}/gnome-builder/plugins/command-bar.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcommand-bar.so
+
 %{_libdir}/gnome-builder/plugins/ctags.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libctags-plugin.so
+
 %{_libdir}/gnome-builder/plugins/devhelp.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libdevhelp-plugin.so
+
 %{_libdir}/gnome-builder/plugins/fallback.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libfallback-plugin.so
+
 %{_libdir}/gnome-builder/plugins/file-search.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libfile-search.so
+
 %{_libdir}/gnome-builder/plugins/gnome-code-assistance.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgnome-code-assistance-plugin.so
+
 %{_libdir}/gnome-builder/plugins/html-completion.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libhtml-completion-plugin.so
+
+%{_libdir}/gnome-builder/plugins/html-preview.plugin
+%{_libdir}/gnome-builder/plugins/html_preview_plugin
+%{_datadir}/gnome-builder/plugins/html_preview_plugin
+
 %{_libdir}/gnome-builder/plugins/jedi.plugin
 %{_libdir}/gnome-builder/plugins/jedi_plugin.py
+
 %{_libdir}/gnome-builder/plugins/python-gi-imports-completion.plugin
 %{_libdir}/gnome-builder/plugins/python_gi_imports_completion.py
+
 %{_libdir}/gnome-builder/plugins/python-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libpython-pack-plugin.so
+
 %{_libdir}/gnome-builder/plugins/symbol-tree.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsymbol-tree.so
+
 %{_libdir}/gnome-builder/plugins/sysmon.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysmon.so
+
 %{_libdir}/gnome-builder/plugins/terminal.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libterminal.so
+
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
+
 %{_libdir}/gnome-builder/plugins/xml-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libxml-pack-plugin.so
 
@@ -223,8 +246,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.extension-type.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project-tree.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.workbench.gschema.xml
-%dir %{_datadir}/gnome-builder
-%{_datadir}/gnome-builder/fonts
 %{_datadir}/gtksourceview-3.0/styles/builder*.xml
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/*x*/apps/builder.png
