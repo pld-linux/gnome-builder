@@ -2,7 +2,7 @@ Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
 Version:	3.18.1
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.18/%{name}-%{version}.tar.xz
@@ -94,6 +94,9 @@ Requires:	vala >= 2:0.30
 # included in vala (0.30)
 #Requires:	vala-gtksourceview >= 3.18.0
 Requires:	vala-libgit2-glib >= 0.23.4
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
 
 %description -n vala-gnome-builder
 Vala API for GNOME Builder.
