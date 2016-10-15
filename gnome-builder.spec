@@ -1,12 +1,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.20.0
+Version:	3.22.1
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.20/%{name}-%{version}.tar.xz
-# Source0-md5:	32b4bfc8b366a72a8c0f7c7b7048b52e
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.22/%{name}-%{version}.tar.xz
+# Source0-md5:	9818b6ef4aba60d9a18d231059cd669b
 Patch0:		%{name}-link.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
@@ -14,6 +14,7 @@ BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	devhelp-devel >= 3.20.0
+BuildRequires:	flatpak-devel
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools
@@ -24,6 +25,7 @@ BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gtk+3-devel >= 3.20.0
 BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	gtk-webkit4-devel >= 2.8.4
+BuildRequires:	gtkmm3-devel
 BuildRequires:	gtksourceview3-devel >= 3.20.0
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	libgit2-glib-devel >= 0.24.0
@@ -33,10 +35,12 @@ BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
+BuildRequires:	mm-common
+BuildRequires:	mm-devel
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
-BuildRequires:	python3-pygobject3-devel >= 3.20.0
+BuildRequires:	python3-pygobject3-devel >= 3.21.0
 BuildRequires:	rpmbuild(macros) >= 1.522
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.30.0.55
@@ -126,7 +130,6 @@ Dokumentacja API LibIDE.
 %patch0 -p1
 
 %build
-%{__intltoolize}
 %{__libtoolize}
 %{__aclocal} -I build/autotools
 %{__autoconf}
@@ -164,11 +167,13 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README
 %attr(755,root,root) %{_bindir}/gnome-builder
-%attr(755,root,root) %{_bindir}/gnome-builder-worker
-%attr(755,root,root) %{_bindir}/ide
+%attr(755,root,root) %{_bindir}/gnome-builder-cli
+%attr(755,root,root) %{_libdir}/gnome-builder-worker
 %dir %{_libdir}/gnome-builder
 %attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so.0
+%attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.*.*.*
+%attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libide-1.0.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so.0
@@ -180,6 +185,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so.0
 %dir %{_libdir}/gnome-builder/girepository-1.0
 %{_libdir}/gnome-builder/girepository-1.0/Egg-1.0.typelib
+%{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Ide-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Pnl-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Template-1.0.typelib
@@ -191,6 +197,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/autotools.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libautotools-plugin.so
+
+%{_libdir}/gnome-builder/plugins/autotools-templates.plugin
+%{_libdir}/gnome-builder/plugins/autotools_templates
+%{_datadir}/gnome-builder/plugins/autotools_templates
 
 %{_libdir}/gnome-builder/plugins/build-tools.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libbuild-tools-plugin.so
@@ -251,10 +261,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/jhbuild.plugin
 %{_libdir}/gnome-builder/plugins/jhbuild_plugin.py
 
-%{_libdir}/gnome-builder/plugins/library-template.plugin
-%{_libdir}/gnome-builder/plugins/library_template
-%{_datadir}/gnome-builder/plugins/library_template
-
 %{_libdir}/gnome-builder/plugins/mingw.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libmingw-plugin.so
 
@@ -285,11 +291,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
 
-%{_libdir}/gnome-builder/plugins/xdg-app.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libxdg-app-plugin.so
-
 %{_libdir}/gnome-builder/plugins/xml-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libxml-pack-plugin.so
+
+%{_libdir}/gnome-builder/plugins/color-picker.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcolor-picker-plugin.so
+
+%{_libdir}/gnome-builder/plugins/flatpak.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libflatpak-plugin.so
+
+%{_libdir}/gnome-builder/plugins/quick-highlight.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libquick-highlight-plugin.so
 
 %{_datadir}/appdata/org.gnome.Builder.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
@@ -301,26 +313,29 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.extension-type.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gnome-code-assistance.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugin.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.color_picker_plugin.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project-tree.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.terminal.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.workbench.gschema.xml
 %{_datadir}/gtksourceview-3.0/styles/builder*.xml
 %{_desktopdir}/org.gnome.Builder.desktop
-%{_iconsdir}/hicolor/*x*/apps/builder.png
-%{_iconsdir}/hicolor/scalable/apps/builder-symbolic.svg
+%{_iconsdir}/hicolor/*x*/apps/org.gnome.Builder.png
+%{_iconsdir}/hicolor/symbolic/apps/org.gnome.Builder-symbolic.svg
 %{py3_sitedir}/gi/overrides/Ide.py
 %{py3_sitedir}/gi/overrides/__pycache__/Ide.*
 
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so
 %attr(755,root,root) %{_libdir}/gnome-builder/librg.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libsearch.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so
-%{_includedir}/gnome-builder-3.20.0
+%{_includedir}/gnome-builder-*
 %dir %{_datadir}/gnome-builder/gir-1.0
 %{_datadir}/gnome-builder/gir-1.0/Egg-1.0.gir
+%{_datadir}/gnome-builder/gir-1.0/Gstyle-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Ide-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Pnl-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Template-1.0.gir
@@ -333,6 +348,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/gnome-builder/vapi
 %{_datadir}/gnome-builder/vapi/egg-private.deps
 %{_datadir}/gnome-builder/vapi/egg-private.vapi
+%{_datadir}/gnome-builder/vapi/gstyle-private.deps
+%{_datadir}/gnome-builder/vapi/gstyle-private.vapi
 %{_datadir}/gnome-builder/vapi/libide-1.0.deps
 %{_datadir}/gnome-builder/vapi/libide-1.0.vapi
 %{_datadir}/gnome-builder/vapi/panel-gtk.deps
