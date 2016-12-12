@@ -1,12 +1,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.22.1
-Release:	2
+Version:	3.22.3
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.22/%{name}-%{version}.tar.xz
-# Source0-md5:	9818b6ef4aba60d9a18d231059cd669b
+# Source0-md5:	badaceda2669e2e4161cc2c7bc49415b
 Patch0:		%{name}-link.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
@@ -14,7 +14,7 @@ BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	devhelp-devel >= 3.20.0
-BuildRequires:	flatpak-devel
+BuildRequires:	flatpak-devel >= 0.6.9
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools
@@ -187,6 +187,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/girepository-1.0/Egg-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Ide-1.0.typelib
+%{_libdir}/gnome-builder/girepository-1.0/Jsonrpc-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Pnl-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Template-1.0.typelib
 %attr(755,root,root) %{_libdir}/gnome-builder/ide-list-*
@@ -207,6 +208,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/c-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libc-pack-plugin.so
+
+%{_libdir}/gnome-builder/plugins/cargo.plugin
+%{_libdir}/gnome-builder/plugins/cargo_plugin.py
 
 %{_libdir}/gnome-builder/plugins/clang.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libclang-plugin.so
@@ -261,6 +265,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/jhbuild.plugin
 %{_libdir}/gnome-builder/plugins/jhbuild_plugin.py
 
+%{_libdir}/gnome-builder/plugins/meson.plugin
+%{_libdir}/gnome-builder/plugins/meson_plugin
+
 %{_libdir}/gnome-builder/plugins/mingw.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libmingw-plugin.so
 
@@ -272,6 +279,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/python-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libpython-pack-plugin.so
+
+%{_libdir}/gnome-builder/plugins/rust-langserv.plugin
+%{_libdir}/gnome-builder/plugins/rust_langserv_plugin.py
 
 %{_libdir}/gnome-builder/plugins/support.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsupport-plugin.so
@@ -337,6 +347,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnome-builder/gir-1.0/Egg-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Gstyle-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Ide-1.0.gir
+%{_datadir}/gnome-builder/gir-1.0/Jsonrpc-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Pnl-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Template-1.0.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
@@ -350,6 +361,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnome-builder/vapi/egg-private.vapi
 %{_datadir}/gnome-builder/vapi/gstyle-private.deps
 %{_datadir}/gnome-builder/vapi/gstyle-private.vapi
+%{_datadir}/gnome-builder/vapi/jsonrpc-glib.deps
+%{_datadir}/gnome-builder/vapi/jsonrpc-glib.vapi
 %{_datadir}/gnome-builder/vapi/libide-1.0.deps
 %{_datadir}/gnome-builder/vapi/libide-1.0.vapi
 %{_datadir}/gnome-builder/vapi/panel-gtk.deps
