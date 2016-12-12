@@ -1,3 +1,6 @@
+#
+# TODO: package idemm files
+#
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
