@@ -9,3 +9,14 @@
  	$(NULL)
  
  libsearch_la_LDFLAGS = \
+--- gnome-builder-3.22.3/libidemm/idemm/Makefile.am.orig	2016-08-16 16:51:27.000000000 +0200
++++ gnome-builder-3.22.3/libidemm/idemm/Makefile.am	2016-12-12 21:52:38.704842645 +0100
+@@ -28,7 +28,7 @@
+ 	-no-undefined \
+ 	$(NULL)
+ 
+-libidemm_1_0_la_LIBADD  = $(IDEMM_LIBS)
++libidemm_1_0_la_LIBADD  = $(IDEMM_LIBS) $(top_builddir)/libide/libide-1.0.la
+ 
+ endif
+ 
