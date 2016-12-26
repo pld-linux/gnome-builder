@@ -1,4 +1,7 @@
-# TODO: sysprof (>= 3.22.2)
+#
+# Conditional build:
+%bcond_without	sysprof	# sysprof system profiler plugin
+#
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
@@ -45,6 +48,7 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.22.2}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-libgit2-glib >= 0.24.0
@@ -69,6 +73,7 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
+%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
 Requires:	vte >= 0.40.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -174,6 +179,7 @@ Pliki nagłówkowe biblioteki libidemm.
 %configure \
 	--disable-silent-rules \
 	--disable-static \
+	%{!?with_sysprof:--disable-sysprof-plugin} \
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
@@ -327,6 +333,11 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/sysmon.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysmon.so
+
+%if %{with sysprof}
+%{_libdir}/gnome-builder/plugins/sysprof.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysprof-plugin.so
+%endif
 
 %{_libdir}/gnome-builder/plugins/terminal.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libterminal.so
