@@ -1,36 +1,36 @@
-#
-# TODO: package idemm files
-#
+# TODO: sysprof (>= 3.22.2)
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.22.3
+Version:	3.22.4
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.22/%{name}-%{version}.tar.xz
-# Source0-md5:	badaceda2669e2e4161cc2c7bc49415b
+# Source0-md5:	5024ce626f138cc8b23e7c949a308ca7
 Patch0:		%{name}-link.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
 BuildRequires:	autoconf >= 2.69
 BuildRequires:	automake >= 1:1.11
 BuildRequires:	clang-devel >= 3.5
+BuildRequires:	desktop-file-utils
 BuildRequires:	devhelp-devel >= 3.20.0
 BuildRequires:	flatpak-devel >= 0.6.9
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
-BuildRequires:	gettext-tools
+BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
-BuildRequires:	glib2-devel >= 1:2.48.0
-BuildRequires:	gnome-common
+BuildRequires:	glib2-devel >= 1:2.50.0
+BuildRequires:	glibmm-devel >= 2.50
 BuildRequires:	gobject-introspection-devel >= 1.48.0
-BuildRequires:	gtk+3-devel >= 3.20.0
+BuildRequires:	gtk+3-devel >= 3.22.1
 BuildRequires:	gtk-doc >= 1.11
-BuildRequires:	gtk-webkit4-devel >= 2.8.4
-BuildRequires:	gtkmm3-devel
-BuildRequires:	gtksourceview3-devel >= 3.20.0
+BuildRequires:	gtk-webkit4-devel >= 2.12.0
+BuildRequires:	gtkmm3-devel >= 3.20
+BuildRequires:	gtksourceview3-devel >= 3.22.0
 BuildRequires:	intltool >= 0.50.1
+BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	libgit2-glib-devel >= 0.24.0
 BuildRequires:	libpeas-devel >= 1.18.0
 # C++11
@@ -38,34 +38,37 @@ BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	mm-common
-BuildRequires:	mm-devel
+BuildRequires:	mm-common >= 0.9.8
+BuildRequires:	pango-devel >= 1:1.38.0
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
-BuildRequires:	python3-pygobject3-devel >= 3.21.0
+BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-libgit2-glib >= 0.24.0
 BuildRequires:	vte-devel >= 0.40.2
-BuildRequires:	xdg-app-devel >= 0.4.11
 BuildRequires:	xz
 BuildRequires:	yelp-tools
-Requires(post,postun):	glib2 >= 1:2.46.0
+Requires(post,postun):	glib2 >= 1:2.50.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	ctags
 Requires:	devhelp-libs >= 3.20.0
+Requires:	flatpak-libs >= 0.6.9
 Requires:	gjs >= 1.42.0
-Requires:	glib2 >= 1:2.48.0
-Requires:	gtk+3 >= 3.20.0
-Requires:	gtk-webkit4 >= 2.8.4
-Requires:	gtksourceview3 >= 3.20.0
+Requires:	glib2 >= 1:2.50.0
+Requires:	gtk+3 >= 3.22.1
+Requires:	gtk-webkit4 >= 2.12.0
+Requires:	gtksourceview3 >= 3.22.0
 Requires:	hicolor-icon-theme
+Requires:	json-glib >= 1.2.0
 Requires:	libgit2-glib >= 0.24.0
 Requires:	libpeas >= 1.18.0
 Requires:	libxml2 >= 1:2.9.0
-Requires:	python3-pygobject3 >= 3.20.0
+Requires:	pango >= 1:1.38.0
+Requires:	python3-modules >= 1:3.2.3
+Requires:	python3-pygobject3 >= 3.22.0
 Requires:	vte >= 0.40.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -84,9 +87,10 @@ Summary:	Development files for GNOME Builder
 Summary(pl.UTF-8):	Pliki programistyczne GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.48.0
-Requires:	gtk+3-devel >= 3.20.0
-Requires:	gtksourceview3-devel >= 3.20.0
+Requires:	glib2-devel >= 1:2.50.0
+Requires:	gtk+3-devel >= 3.22.1
+Requires:	gtksourceview3-devel >= 3.22.0
+Requires:	pango-devel >= 1:1.38.0
 
 %description devel
 This package provides development files for GNOME Builder.
@@ -127,6 +131,35 @@ LibIDE API documentation.
 
 %description apidocs -l pl.UTF-8
 Dokumentacja API LibIDE.
+
+%package mm
+Summary:	libidemm - C++ wrapper for libide
+Summary(pl.UTF-8):	libidemm - interfejs C++ do libide
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	glibmm >= 2.50
+Requires:	gtkmm3 >= 3.20
+
+%description mm
+libidemm - C++ wrapper for libide.
+
+%description mm -l pl.UTF-8
+libidemm - interfejs C++ do libide.
+
+%package mm-devel
+Summary:	Header files for libidemm library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libidemm
+Group:		Development/Libraries
+Requires:	%{name}-devel = %{version}-%{release}
+Requires:	%{name}-mm = %{version}-%{release}
+Requires:	glibmm-devel >= 2.50
+Requires:	gtkmm3-devel >= 3.20
+
+%description mm-devel
+Header files for libidemm library.
+
+%description mm-devel -l pl.UTF-8
+Pliki nagłówkowe biblioteki libidemm.
 
 %prep
 %setup -q
@@ -376,3 +409,15 @@ rm -rf $RPM_BUILD_ROOT
 %files apidocs
 %defattr(644,root,root,755)
 %{_gtkdocdir}/libide
+
+%files mm
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/gnome-builder/libidemm-1.0.so.*.*.*
+%attr(755,root,root) %{_libdir}/gnome-builder/libidemm-1.0.so.0
+
+%files mm-devel
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_libdir}/gnome-builder/libidemm-1.0.so
+%dir %{_libdir}/gnome-builder/idemm-1.0
+%{_libdir}/gnome-builder/idemm-1.0/include
+%{_includedir}/idemm
