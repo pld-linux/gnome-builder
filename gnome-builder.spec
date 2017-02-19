@@ -1,3 +1,5 @@
+# TODO:
+# - fix warning: jedi not found, python auto-completion not possible.
 #
 # Conditional build:
 %bcond_without	sysprof	# sysprof system profiler plugin
@@ -75,6 +77,7 @@ Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
 Requires:	vte >= 0.40.2
+Suggests:	python3-lxml
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
