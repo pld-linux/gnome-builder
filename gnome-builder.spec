@@ -7,12 +7,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.22.4
-Release:	2
+Version:	3.24.0
+Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.22/%{name}-%{version}.tar.xz
-# Source0-md5:	5024ce626f138cc8b23e7c949a308ca7
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.24/%{name}-%{version}.tar.xz
+# Source0-md5:	6f919914d39aafc4672caa81f840b246
 Patch0:		%{name}-link.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
@@ -27,12 +27,10 @@ BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
 BuildRequires:	glib2-devel >= 1:2.50.0
-BuildRequires:	glibmm-devel >= 2.50
 BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gtk+3-devel >= 3.22.1
 BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	gtk-webkit4-devel >= 2.12.0
-BuildRequires:	gtkmm3-devel >= 3.20
 BuildRequires:	gtksourceview3-devel >= 3.22.0
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	json-glib-devel >= 1.2.0
@@ -77,6 +75,7 @@ Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
 Requires:	vte >= 0.40.2
+Obsoletes:	gnome-builder-mm
 Suggests:	python3-lxml
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -99,6 +98,7 @@ Requires:	glib2-devel >= 1:2.50.0
 Requires:	gtk+3-devel >= 3.22.1
 Requires:	gtksourceview3-devel >= 3.22.0
 Requires:	pango-devel >= 1:1.38.0
+Obsoletes:	gnome-builder-mm-devel
 
 %description devel
 This package provides development files for GNOME Builder.
@@ -140,35 +140,6 @@ LibIDE API documentation.
 %description apidocs -l pl.UTF-8
 Dokumentacja API LibIDE.
 
-%package mm
-Summary:	libidemm - C++ wrapper for libide
-Summary(pl.UTF-8):	libidemm - interfejs C++ do libide
-Group:		Libraries
-Requires:	%{name} = %{version}-%{release}
-Requires:	glibmm >= 2.50
-Requires:	gtkmm3 >= 3.20
-
-%description mm
-libidemm - C++ wrapper for libide.
-
-%description mm -l pl.UTF-8
-libidemm - interfejs C++ do libide.
-
-%package mm-devel
-Summary:	Header files for libidemm library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki libidemm
-Group:		Development/Libraries
-Requires:	%{name}-devel = %{version}-%{release}
-Requires:	%{name}-mm = %{version}-%{release}
-Requires:	glibmm-devel >= 2.50
-Requires:	gtkmm3-devel >= 3.20
-
-%description mm-devel
-Header files for libidemm library.
-
-%description mm-devel -l pl.UTF-8
-Pliki nagłówkowe biblioteki libidemm.
-
 %prep
 %setup -q
 %patch0 -p1
@@ -183,6 +154,7 @@ Pliki nagłówkowe biblioteki libidemm.
 	--disable-silent-rules \
 	--disable-static \
 	%{!?with_sysprof:--disable-sysprof-plugin} \
+	--disable-vala-pack-plugin \
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
@@ -248,9 +220,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/autotools_templates
 %{_datadir}/gnome-builder/plugins/autotools_templates
 
-%{_libdir}/gnome-builder/plugins/build-tools.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libbuild-tools-plugin.so
-
 %{_libdir}/gnome-builder/plugins/c-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libc-pack-plugin.so
 
@@ -265,9 +234,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/comment-code.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcomment-code-plugin.so
-
-%{_libdir}/gnome-builder/plugins/contributing.plugin
-%{_libdir}/gnome-builder/plugins/contributing_plugin
 
 %{_libdir}/gnome-builder/plugins/create-project.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcreate-project-plugin.so
@@ -290,9 +256,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/gettext.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgettext-plugin.so
-
-%{_libdir}/gnome-builder/plugins/git.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgit-plugin.so
 
 %{_libdir}/gnome-builder/plugins/gnome-code-assistance.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgnome-code-assistance-plugin.so
@@ -337,28 +300,17 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/sysmon.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysmon.so
 
-%if %{with sysprof}
-%{_libdir}/gnome-builder/plugins/sysprof.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysprof-plugin.so
-%endif
-
 %{_libdir}/gnome-builder/plugins/terminal.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libterminal.so
 
 %{_libdir}/gnome-builder/plugins/todo.plugin
 %{_libdir}/gnome-builder/plugins/todo_plugin
 
-%{_libdir}/gnome-builder/plugins/vala-pack.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
-
 %{_libdir}/gnome-builder/plugins/xml-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libxml-pack-plugin.so
 
 %{_libdir}/gnome-builder/plugins/color-picker.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcolor-picker-plugin.so
-
-%{_libdir}/gnome-builder/plugins/flatpak.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libflatpak-plugin.so
 
 %{_libdir}/gnome-builder/plugins/quick-highlight.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libquick-highlight-plugin.so
@@ -422,16 +374,4 @@ rm -rf $RPM_BUILD_ROOT
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/libide
-
-%files mm
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/gnome-builder/libidemm-1.0.so.*.*.*
-%attr(755,root,root) %{_libdir}/gnome-builder/libidemm-1.0.so.0
-
-%files mm-devel
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/gnome-builder/libidemm-1.0.so
-%dir %{_libdir}/gnome-builder/idemm-1.0
-%{_libdir}/gnome-builder/idemm-1.0/include
-%{_includedir}/idemm
+#%{_gtkdocdir}/libide
