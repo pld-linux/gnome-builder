@@ -256,6 +256,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/gettext.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgettext-plugin.so
 
+%{_libdir}/gnome-builder/plugins/git.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgit-plugin.so
+
 %{_libdir}/gnome-builder/plugins/gnome-code-assistance.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgnome-code-assistance-plugin.so
 
@@ -299,17 +302,28 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/sysmon.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysmon.so
 
+%if %{with sysprof}
+%{_libdir}/gnome-builder/plugins/sysprof.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysprof-plugin.so
+%endif
+
 %{_libdir}/gnome-builder/plugins/terminal.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libterminal.so
 
 %{_libdir}/gnome-builder/plugins/todo.plugin
 %{_libdir}/gnome-builder/plugins/todo_plugin
 
+%{_libdir}/gnome-builder/plugins/vala-pack.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
+
 %{_libdir}/gnome-builder/plugins/xml-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libxml-pack-plugin.so
 
 %{_libdir}/gnome-builder/plugins/color-picker.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcolor-picker-plugin.so
+
+%{_libdir}/gnome-builder/plugins/flatpak.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libflatpak-plugin.so
 
 %{_libdir}/gnome-builder/plugins/quick-highlight.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libquick-highlight-plugin.so
