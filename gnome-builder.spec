@@ -28,6 +28,7 @@ BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
 BuildRequires:	glib2-devel >= 1:2.50.0
 BuildRequires:	gobject-introspection-devel >= 1.48.0
+BuildRequires:	gspell-devel >= 1.2.0
 BuildRequires:	gtk+3-devel >= 3.22.1
 BuildRequires:	gtk-doc >= 1.11
 BuildRequires:	gtk-webkit4-devel >= 2.12.0
