@@ -75,6 +75,7 @@ Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
 Requires:	vte >= 0.40.2
+Obsoletes:	gnome-builder-apidocs
 Obsoletes:	gnome-builder-mm
 Suggests:	python3-lxml
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -125,21 +126,6 @@ Vala API for GNOME Builder.
 %description -n vala-gnome-builder -l pl.UTF-8
 API języka Vala dla GNOME Buildera.
 
-%package apidocs
-Summary:	LibIDE API documentation
-Summary(pl.UTF-8):	Dokumentacja API LibIDE
-Group:		Documentation
-Requires:	gtk-doc-common
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
-
-%description apidocs
-LibIDE API documentation.
-
-%description apidocs -l pl.UTF-8
-Dokumentacja API LibIDE.
-
 %prep
 %setup -q
 %patch0 -p1
@@ -154,7 +140,7 @@ Dokumentacja API LibIDE.
 	--disable-silent-rules \
 	--disable-static \
 	%{!?with_sysprof:--disable-sysprof-plugin} \
-	--with-html-dir=%{_gtkdocdir}
+	--docdir=%{_docdir}/%{name}-%{version}
 %{__make}
 
 %install
@@ -165,6 +151,8 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/gnome-builder/*.la \
 	$RPM_BUILD_ROOT%{_libdir}/gnome-builder/plugins/*.la
+
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/%{name}-%{version}
 
 %find_lang %{name} --with-gnome
 
@@ -181,16 +169,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
+%doc AUTHORS NEWS README doc/html
 %attr(755,root,root) %{_bindir}/gnome-builder
 %attr(755,root,root) %{_bindir}/gnome-builder-cli
 %attr(755,root,root) %{_libdir}/gnome-builder-worker
 %dir %{_libdir}/gnome-builder
 %attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so.0
+%attr(755,root,root) %{_libdir}/gnome-builder/libgd-private.so.*.*.*
+%attr(755,root,root) %{_libdir}/gnome-builder/libgd-private.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libide-1.0.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libjsonrpc-glib.so.*.*.*
+%attr(755,root,root) %{_libdir}/gnome-builder/libjsonrpc-glib.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/librg.so.*.*.*
@@ -199,6 +191,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/gnome-builder/libsearch.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so.0
+%attr(755,root,root) %{_libdir}/gnome-builder/libxml-private.so.*.*.*
+%attr(755,root,root) %{_libdir}/gnome-builder/libxml-private.so.0
 %dir %{_libdir}/gnome-builder/girepository-1.0
 %{_libdir}/gnome-builder/girepository-1.0/Egg-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
@@ -218,6 +212,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/autotools-templates.plugin
 %{_libdir}/gnome-builder/plugins/autotools_templates
 %{_datadir}/gnome-builder/plugins/autotools_templates
+
+%{_libdir}/gnome-builder/plugins/beautifier.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libbeautifier_plugin.so
+%{_datadir}/gnome-builder/plugins/beautifier_plugin
 
 %{_libdir}/gnome-builder/plugins/c-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libc-pack-plugin.so
@@ -242,6 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/devhelp.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libdevhelp-plugin.so
+
+%{_libdir}/gnome-builder/plugins/eslint.plugin
+%{_libdir}/gnome-builder/plugins/eslint_plugin
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.eslint.gschema.xml
 
 %{_libdir}/gnome-builder/plugins/file-search.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libfile-search.so
@@ -328,6 +330,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/quick-highlight.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libquick-highlight-plugin.so
 
+%{_libdir}/gnome-builder/plugins/cmake.plugin
+%{_libdir}/gnome-builder/plugins/cmake_plugin
+
+%{_libdir}/gnome-builder/plugins/make.plugin
+%{_libdir}/gnome-builder/plugins/make_plugin
+
+%{_libdir}/gnome-builder/plugins/mono.plugin
+%{_libdir}/gnome-builder/plugins/mono_plugin.py
+
+%{_libdir}/gnome-builder/plugins/phpize.plugin
+%{_libdir}/gnome-builder/plugins/phpize_plugin.py
+
+%{_libdir}/gnome-builder/plugins/rustup.plugin
+%{_libdir}/gnome-builder/plugins/rustup_plugin
+%{_datadir}/gnome-builder/plugins/rustup_plugin
+
+%{_libdir}/gnome-builder/plugins/valgrind.plugin
+%{_libdir}/gnome-builder/plugins/valgrind_plugin
+
 %{_datadir}/appdata/org.gnome.Builder.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gschema.xml
@@ -352,11 +373,14 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libgd-private.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libjsonrpc-glib.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so
 %attr(755,root,root) %{_libdir}/gnome-builder/librg.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libsearch.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libxml-private.so
 %{_includedir}/gnome-builder-*
 %dir %{_datadir}/gnome-builder/gir-1.0
 %{_datadir}/gnome-builder/gir-1.0/Egg-1.0.gir
@@ -384,7 +408,3 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnome-builder/vapi/panel-gtk.vapi
 %{_datadir}/gnome-builder/vapi/template-glib-1.0.deps
 %{_datadir}/gnome-builder/vapi/template-glib-1.0.vapi
-
-%files apidocs
-%defattr(644,root,root,755)
-#%{_gtkdocdir}/libide
