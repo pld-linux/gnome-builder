@@ -21,7 +21,7 @@ BuildRequires:	automake >= 1:1.11
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	desktop-file-utils
 BuildRequires:	devhelp-devel >= 3.20.0
-BuildRequires:	flatpak-devel >= 0.6.9
+BuildRequires:	flatpak-devel >= 0.8.0
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
@@ -34,7 +34,7 @@ BuildRequires:	gtk-webkit4-devel >= 2.12.0
 BuildRequires:	gtksourceview3-devel >= 3.22.0
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	json-glib-devel >= 1.2.0
-BuildRequires:	libgit2-glib-devel >= 0.24.0
+BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.18.0
 # C++11
 BuildRequires:	libstdc++-devel >= 6:4.7
@@ -48,7 +48,7 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.22.2}
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.23.91}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-libgit2-glib >= 0.24.0
@@ -154,7 +154,6 @@ Dokumentacja API LibIDE.
 	--disable-silent-rules \
 	--disable-static \
 	%{!?with_sysprof:--disable-sysprof-plugin} \
-	--disable-vala-pack-plugin \
 	--with-html-dir=%{_gtkdocdir}
 %{__make}
 
