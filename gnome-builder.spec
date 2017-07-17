@@ -7,12 +7,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.24.0
+Version:	3.24.2
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.24/%{name}-%{version}.tar.xz
-# Source0-md5:	6f919914d39aafc4672caa81f840b246
+# Source0-md5:	2201cc0d0356328f1b2be22139f9d511
 Patch0:		%{name}-link.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
@@ -21,6 +21,7 @@ BuildRequires:	automake >= 1:1.11
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	desktop-file-utils
 BuildRequires:	devhelp-devel >= 3.20.0
+BuildRequires:	enchant-devel >= 1.6.0
 BuildRequires:	flatpak-devel >= 0.8.0
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
@@ -37,6 +38,7 @@ BuildRequires:	intltool >= 0.50.1
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.18.0
+BuildRequires:	libsoup-devel >= 2.52.0
 # C++11
 BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2
@@ -53,13 +55,14 @@ BuildRequires:	rpmbuild(macros) >= 1.522
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-libgit2-glib >= 0.24.0
-BuildRequires:	vte-devel >= 0.40.2
+BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
 Requires(post,postun):	glib2 >= 1:2.50.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	ctags
 Requires:	devhelp-libs >= 3.20.0
+Requires:	enchant >= 1.6.0
 Requires:	flatpak-libs >= 0.6.9
 Requires:	gjs >= 1.42.0
 Requires:	glib2 >= 1:2.50.0
@@ -70,12 +73,13 @@ Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	libgit2-glib >= 0.24.0
 Requires:	libpeas >= 1.18.0
+Requires:	libsoup >= 2.52.0
 Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
-Requires:	vte >= 0.40.2
+Requires:	vte >= 0.46
 Obsoletes:	gnome-builder-apidocs
 Obsoletes:	gnome-builder-mm
 Suggests:	python3-lxml
