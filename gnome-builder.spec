@@ -44,7 +44,6 @@ BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	mm-common >= 0.9.8
 BuildRequires:	pango-devel >= 1:1.38.0
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig >= 1:0.22
