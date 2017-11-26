@@ -2,14 +2,14 @@
 # - fix warning: jedi not found, python auto-completion not possible.
 #
 # Conditional build:
-%bcond_without	sysprof	# sysprof system profiler plugin
-%bcond_with	vala	# vala pack plugin
+%bcond_without	sysprof		# sysprof system profiler plugin
+%bcond_with	vala_pack	# vala pack plugin
 #
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
 Version:	3.26.2
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.26/%{name}-%{version}.tar.xz
@@ -53,11 +53,9 @@ BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
 %{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.23.91}
 BuildRequires:	tar >= 1:1.22
-%if %{with vala}
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-jsonrpc-glib
 BuildRequires:	vala-libgit2-glib >= 0.24.0
-%endif
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
@@ -83,9 +81,9 @@ Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
 Requires:	vte >= 0.46
+Suggests:	python3-lxml
 Obsoletes:	gnome-builder-apidocs
 Obsoletes:	gnome-builder-mm
-Suggests:	python3-lxml
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -140,7 +138,7 @@ API języka Vala dla GNOME Buildera.
 %build
 %meson build \
 	-Dwith_sysprof=%{__true_false sysprof} \
-	-Dwith_vala_pack=%{__true_false vala}
+	-Dwith_vala_pack=%{__true_false vala_pack}
 
 %meson_build -C build
 
@@ -165,37 +163,23 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{name}.lang
 %defattr(644,root,root,755)
 %doc AUTHORS NEWS README build/doc/en
+%attr(755,root,root) %{_bindir}/dazzle-list-counters
 %attr(755,root,root) %{_bindir}/gnome-builder
 %attr(755,root,root) %{_bindir}/gnome-builder-cli
-#%attr(755,root,root) %{_libdir}/gnome-builder-worker
+%attr(755,root,root) %{_libexecdir}/gnome-builder-worker
 %dir %{_libdir}/gnome-builder
-#%attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so.0
-#%attr(755,root,root) %{_libdir}/gnome-builder/libgd-private.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libgd-private.so.0
+%attr(755,root,root) %{_libdir}/libdazzle-1.0.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libide-1.0.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libjsonrpc-glib.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libjsonrpc-glib.so.0
-#%attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so.0
-#%attr(755,root,root) %{_libdir}/gnome-builder/librg.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/librg.so.0
-#%attr(755,root,root) %{_libdir}/gnome-builder/libsearch.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libsearch.so.0
-#%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so.0
-#%attr(755,root,root) %{_libdir}/gnome-builder/libxml-private.so.*.*.*
-#%attr(755,root,root) %{_libdir}/gnome-builder/libxml-private.so.0
+%attr(755,root,root) %{_libdir}/gnome-builder/libgd.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate_glib-1.0.so.*.*.*
+%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate_glib-1.0.so.0
 %dir %{_libdir}/gnome-builder/girepository-1.0
-#%{_libdir}/gnome-builder/girepository-1.0/Egg-1.0.typelib
+%{_libdir}/gnome-builder/girepository-1.0/Dazzle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Ide-1.0.typelib
-#%{_libdir}/gnome-builder/girepository-1.0/Jsonrpc-1.0.typelib
-#%{_libdir}/gnome-builder/girepository-1.0/Pnl-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Template-1.0.typelib
-#%attr(755,root,root) %{_libdir}/gnome-builder/ide-list-*
 %dir %{_libdir}/gnome-builder/plugins
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
@@ -203,10 +187,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/autotools.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libautotools-plugin.so
-
-#%{_libdir}/gnome-builder/plugins/autotools-templates.plugin
-#%{_libdir}/gnome-builder/plugins/autotools_templates
-#%{_datadir}/gnome-builder/plugins/autotools_templates
 
 %{_libdir}/gnome-builder/plugins/beautifier.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libbeautifier_plugin.so
@@ -220,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/clang.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libclang-plugin.so
+
+%{_libdir}/gnome-builder/plugins/code-index.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcode-index-plugin.so
 
 %{_libdir}/gnome-builder/plugins/command-bar.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcommand-bar.so
@@ -236,6 +219,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/devhelp.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libdevhelp-plugin.so
 
+%{_libdir}/gnome-builder/plugins/documentation-card.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libdocumentation-card-plugin.so
+
 %{_libdir}/gnome-builder/plugins/eslint.plugin
 %{_libdir}/gnome-builder/plugins/eslint_plugin
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.eslint.gschema.xml
@@ -243,12 +229,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/file-search.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libfile-search.so
 
-#%{_libdir}/gnome-builder/plugins/fpaste.plugin
-#%{_libdir}/gnome-builder/plugins/fpaste_plugin
-#%{_datadir}/gnome-builder/plugins/fpaste_plugin
+%{_libdir}/gnome-builder/plugins/find-other-file.plugin
+%{_libdir}/gnome-builder/plugins/find_other_file.py
 
 %{_libdir}/gnome-builder/plugins/gcc.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgcc-plugin.so
+
+%{_libdir}/gnome-builder/plugins/gdb.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgdb-plugin.so
 
 %{_libdir}/gnome-builder/plugins/gettext.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgettext-plugin.so
@@ -258,6 +246,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/gnome-code-assistance.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgnome-code-assistance-plugin.so
+
+%{_libdir}/gnome-builder/plugins/history.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libhistory-plugin.so
 
 %{_libdir}/gnome-builder/plugins/html-completion.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libhtml-completion-plugin.so
@@ -275,8 +266,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/meson.plugin
 %{_libdir}/gnome-builder/plugins/meson_plugin
 
+%{_libdir}/gnome-builder/plugins/meson-templates.plugin
+%{_libdir}/gnome-builder/plugins/meson_templates
+%{_datadir}/gnome-builder/plugins/meson_templates
+
 %{_libdir}/gnome-builder/plugins/mingw.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libmingw-plugin.so
+
+%{_libdir}/gnome-builder/plugins/notification.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libnotification-plugin.so
+
+%{_libdir}/gnome-builder/plugins/npm.plugin
+%{_libdir}/gnome-builder/plugins/npm_plugin.py
 
 %{_libdir}/gnome-builder/plugins/project-tree.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libproject-tree-plugin.so
@@ -287,14 +288,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/python-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libpython-pack-plugin.so
 
+%{_libdir}/gnome-builder/plugins/retab.plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libretab-plugin.so
+
 %{_libdir}/gnome-builder/plugins/rust-langserv.plugin
 %{_libdir}/gnome-builder/plugins/rust_langserv_plugin.py
+
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libspellcheck-plugin.so
+%{_libdir}/gnome-builder/plugins/spellcheck.plugin
 
 %{_libdir}/gnome-builder/plugins/support.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsupport-plugin.so
 
 %{_libdir}/gnome-builder/plugins/symbol-tree.plugin
-#%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsymbol-tree.so
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsymbol-tree-plugin.so
 
 %{_libdir}/gnome-builder/plugins/sysmon.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysmon.so
@@ -308,9 +315,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libterminal.so
 
 %{_libdir}/gnome-builder/plugins/todo.plugin
-#%{_libdir}/gnome-builder/plugins/todo_plugin
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libtodo-plugin.so
 
-%if %{with vala}
+%if %{with vala_pack}
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
 %endif
@@ -341,10 +348,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/rustup.plugin
 %{_libdir}/gnome-builder/plugins/rustup_plugin
-#%{_datadir}/gnome-builder/plugins/rustup_plugin
 
 %{_libdir}/gnome-builder/plugins/valgrind.plugin
-#%{_libdir}/gnome-builder/plugins/valgrind_plugin
+%{_libdir}/gnome-builder/plugins/valgrind_plugin.gresource
+%{_libdir}/gnome-builder/plugins/valgrind_plugin.py
 
 %{_datadir}/appdata/org.gnome.Builder.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
@@ -365,45 +372,31 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*x*/apps/org.gnome.Builder.png
 %{_iconsdir}/hicolor/symbolic/apps/org.gnome.Builder-symbolic.svg
 %{py3_sitedir}/gi/overrides/Ide.py
-#%{py3_sitedir}/gi/overrides/__pycache__/Ide.*
 
 %files devel
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_libdir}/gnome-builder/libegg-private.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libgd-private.so
+%attr(755,root,root) %{_libdir}/libdazzle-1.0.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libjsonrpc-glib.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libpanel-gtk.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/librg.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libsearch.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate-glib-1.0.so
-#%attr(755,root,root) %{_libdir}/gnome-builder/libxml-private.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate_glib-1.0.so
 %{_includedir}/gnome-builder
 %dir %{_datadir}/gnome-builder/gir-1.0
-#%{_datadir}/gnome-builder/gir-1.0/Egg-1.0.gir
+%{_datadir}/gnome-builder/gir-1.0/Dazzle-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Gstyle-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Ide-1.0.gir
-#%{_datadir}/gnome-builder/gir-1.0/Jsonrpc-1.0.gir
-#%{_datadir}/gnome-builder/gir-1.0/Pnl-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Template-1.0.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
+%{_libdir}/gnome-builder/pkgconfig/libdazzle-1.0.pc
 %{_libdir}/gnome-builder/pkgconfig/libide-1.0.pc
 %{_libdir}/gnome-builder/pkgconfig/template-glib-1.0.pc
 
-%if %{with vala}
 %files -n vala-gnome-builder
 %defattr(644,root,root,755)
 %dir %{_datadir}/gnome-builder/vapi
-%{_datadir}/gnome-builder/vapi/egg-private.deps
-%{_datadir}/gnome-builder/vapi/egg-private.vapi
 %{_datadir}/gnome-builder/vapi/gstyle-private.deps
 %{_datadir}/gnome-builder/vapi/gstyle-private.vapi
-%{_datadir}/gnome-builder/vapi/jsonrpc-glib.deps
-%{_datadir}/gnome-builder/vapi/jsonrpc-glib.vapi
+%{_datadir}/gnome-builder/vapi/libdazzle-1.0.deps
+%{_datadir}/gnome-builder/vapi/libdazzle-1.0.vapi
 %{_datadir}/gnome-builder/vapi/libide-1.0.deps
 %{_datadir}/gnome-builder/vapi/libide-1.0.vapi
-%{_datadir}/gnome-builder/vapi/panel-gtk.deps
-%{_datadir}/gnome-builder/vapi/panel-gtk.vapi
 %{_datadir}/gnome-builder/vapi/template-glib-1.0.deps
 %{_datadir}/gnome-builder/vapi/template-glib-1.0.vapi
-%endif
