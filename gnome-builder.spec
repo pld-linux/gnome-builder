@@ -9,7 +9,7 @@ Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
 Version:	3.26.2
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.26/%{name}-%{version}.tar.xz
@@ -59,6 +59,7 @@ BuildRequires:	vala-libgit2-glib >= 0.24.0
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
+BuildConflicts:	gd-devel
 Requires(post,postun):	glib2 >= 1:2.50.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	ctags
