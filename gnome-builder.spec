@@ -8,12 +8,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.26.2
-Release:	4
+Version:	3.28.0
+Release:	0.1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.26/%{name}-%{version}.tar.xz
-# Source0-md5:	d330eec265267651c287fb19e4dc7ade
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.28/%{name}-%{version}.tar.xz
+# Source0-md5:	5963331e96922e2caf6bf66b36ad4b10
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
 BuildRequires:	clang-devel >= 3.5
@@ -34,7 +34,8 @@ BuildRequires:	gtk-webkit4-devel >= 2.12.0
 BuildRequires:	gtksourceview3-devel >= 3.22.0
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	json-glib-devel >= 1.2.0
-BuildRequires:	jsonrpc-glib-devel
+BuildRequires:	jsonrpc-glib-devel >= 3.28.0
+BuildRequires:	libdazzle-devel
 BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.22.0
 BuildRequires:	libsoup-devel >= 2.52.0
@@ -51,11 +52,13 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.23.91}
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.28.0}
 BuildRequires:	tar >= 1:1.22
+BuildRequires:	template-glib-devel
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-jsonrpc-glib
 BuildRequires:	vala-libgit2-glib >= 0.24.0
+BuildRequires:	vala-template-glib
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
@@ -80,7 +83,7 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
-%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.22.2}
+%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.28.0}
 Requires:	vte >= 0.46
 Suggests:	python3-lxml
 Obsoletes:	gnome-builder-apidocs
