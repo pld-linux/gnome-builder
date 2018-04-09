@@ -14,6 +14,7 @@ License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.28/%{name}-%{version}.tar.xz
 # Source0-md5:	5963331e96922e2caf6bf66b36ad4b10
+# Should be safe to remove when we move to gcc 8
 Patch0:		unknown-gcc-option.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
