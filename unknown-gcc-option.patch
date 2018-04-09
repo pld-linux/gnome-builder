@@ -1,0 +1,10 @@
+--- gnome-builder-3.28.0/meson.build~	2018-03-14 03:10:22.000000000 +0100
++++ gnome-builder-3.28.0/meson.build	2018-04-09 09:36:01.908727154 +0200
+@@ -112,7 +112,6 @@
+   '-Wformat-security',
+   '-Wmissing-include-dirs',
+   '-Wnested-externs',
+-  '-Wno-cast-function-type',
+   '-Wno-missing-field-initializers',
+   '-Wno-sign-compare',
+   '-Wno-unused-parameter',

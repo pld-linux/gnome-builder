@@ -2,7 +2,7 @@
 # - fix warning: jedi not found, python auto-completion not possible.
 #
 # Conditional build:
-%bcond_without	sysprof		# sysprof system profiler plugin
+%bcond_with	sysprof		# sysprof system profiler plugin
 %bcond_with	vala_pack	# vala pack plugin
 #
 Summary:	IDE for writing GNOME-based software
@@ -14,6 +14,7 @@ License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.28/%{name}-%{version}.tar.xz
 # Source0-md5:	5963331e96922e2caf6bf66b36ad4b10
+Patch0:		unknown-gcc-option.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
 BuildRequires:	clang-devel >= 3.5
@@ -56,7 +57,9 @@ BuildRequires:	rpmbuild(macros) >= 1.522
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel
 BuildRequires:	vala >= 2:0.30.0.55
+BuildRequires:  vala-gtksourceview
 BuildRequires:	vala-jsonrpc-glib
+BuildRequires:	vala-libdazzle
 BuildRequires:	vala-libgit2-glib >= 0.24.0
 BuildRequires:	vala-template-glib
 BuildRequires:	vte-devel >= 0.46
@@ -138,6 +141,7 @@ API języka Vala dla GNOME Buildera.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %meson build \
