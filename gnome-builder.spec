@@ -171,100 +171,29 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README build/doc/en
-%attr(755,root,root) %{_bindir}/dazzle-list-counters
+%doc AUTHORS NEWS README.md
 %attr(755,root,root) %{_bindir}/gnome-builder
-%attr(755,root,root) %{_bindir}/gnome-builder-cli
-%attr(755,root,root) %{_libexecdir}/gnome-builder-worker
 %dir %{_libdir}/gnome-builder
-%attr(755,root,root) %{_libdir}/libdazzle-1.0.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libide-1.0.so
-%attr(755,root,root) %{_libdir}/gnome-builder/libgd.so
-%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate_glib-1.0.so.*.*.*
-%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate_glib-1.0.so.0
 %dir %{_libdir}/gnome-builder/girepository-1.0
-%{_libdir}/gnome-builder/girepository-1.0/Dazzle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Ide-1.0.typelib
-%{_libdir}/gnome-builder/girepository-1.0/Template-1.0.typelib
 %dir %{_libdir}/gnome-builder/plugins
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
-%dir %{_datadir}/gnome-builder/plugins
-
-%{_libdir}/gnome-builder/plugins/autotools.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libautotools-plugin.so
-
-%{_libdir}/gnome-builder/plugins/beautifier.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libbeautifier_plugin.so
-%{_datadir}/gnome-builder/plugins/beautifier_plugin
-
-%{_libdir}/gnome-builder/plugins/c-pack.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libc-pack-plugin.so
 
 %{_libdir}/gnome-builder/plugins/cargo.plugin
 %{_libdir}/gnome-builder/plugins/cargo_plugin.py
 
-%{_libdir}/gnome-builder/plugins/clang.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libclang-plugin.so
-
-%{_libdir}/gnome-builder/plugins/code-index.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcode-index-plugin.so
-
-%{_libdir}/gnome-builder/plugins/command-bar.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcommand-bar.so
-
-%{_libdir}/gnome-builder/plugins/comment-code.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcomment-code-plugin.so
-
-%{_libdir}/gnome-builder/plugins/create-project.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcreate-project-plugin.so
-
-%{_libdir}/gnome-builder/plugins/ctags.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libctags-plugin.so
-
-%{_libdir}/gnome-builder/plugins/devhelp.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libdevhelp-plugin.so
-
-%{_libdir}/gnome-builder/plugins/documentation-card.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libdocumentation-card-plugin.so
-
 %{_libdir}/gnome-builder/plugins/eslint.plugin
-%{_libdir}/gnome-builder/plugins/eslint_plugin
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.eslint.gschema.xml
-
-%{_libdir}/gnome-builder/plugins/file-search.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libfile-search.so
 
 %{_libdir}/gnome-builder/plugins/find-other-file.plugin
 %{_libdir}/gnome-builder/plugins/find_other_file.py
 
-%{_libdir}/gnome-builder/plugins/gcc.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgcc-plugin.so
-
-%{_libdir}/gnome-builder/plugins/gdb.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgdb-plugin.so
-
-%{_libdir}/gnome-builder/plugins/gettext.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgettext-plugin.so
-
-%{_libdir}/gnome-builder/plugins/git.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgit-plugin.so
-
-%{_libdir}/gnome-builder/plugins/gnome-code-assistance.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libgnome-code-assistance-plugin.so
-
-%{_libdir}/gnome-builder/plugins/history.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libhistory-plugin.so
-
-%{_libdir}/gnome-builder/plugins/html-completion.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libhtml-completion-plugin.so
-
 %{_libdir}/gnome-builder/plugins/html-preview.plugin
-%{_libdir}/gnome-builder/plugins/html_preview_plugin
-%{_datadir}/gnome-builder/plugins/html_preview_plugin
 
 %{_libdir}/gnome-builder/plugins/jedi.plugin
 %{_libdir}/gnome-builder/plugins/jedi_plugin.py
@@ -272,82 +201,26 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/jhbuild.plugin
 %{_libdir}/gnome-builder/plugins/jhbuild_plugin.py
 
-%{_libdir}/gnome-builder/plugins/meson.plugin
-%{_libdir}/gnome-builder/plugins/meson_plugin
-
 %{_libdir}/gnome-builder/plugins/meson-templates.plugin
-%{_libdir}/gnome-builder/plugins/meson_templates
-%{_datadir}/gnome-builder/plugins/meson_templates
-
-%{_libdir}/gnome-builder/plugins/mingw.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libmingw-plugin.so
-
-%{_libdir}/gnome-builder/plugins/notification.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libnotification-plugin.so
 
 %{_libdir}/gnome-builder/plugins/npm.plugin
 %{_libdir}/gnome-builder/plugins/npm_plugin.py
 
-%{_libdir}/gnome-builder/plugins/project-tree.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libproject-tree-plugin.so
-
 %{_libdir}/gnome-builder/plugins/python-gi-imports-completion.plugin
 %{_libdir}/gnome-builder/plugins/python_gi_imports_completion.py
-
-%{_libdir}/gnome-builder/plugins/python-pack.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libpython-pack-plugin.so
-
-%{_libdir}/gnome-builder/plugins/retab.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libretab-plugin.so
 
 %{_libdir}/gnome-builder/plugins/rust-langserv.plugin
 %{_libdir}/gnome-builder/plugins/rust_langserv_plugin.py
 
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libspellcheck-plugin.so
-%{_libdir}/gnome-builder/plugins/spellcheck.plugin
-
-%{_libdir}/gnome-builder/plugins/support.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsupport-plugin.so
-
-%{_libdir}/gnome-builder/plugins/symbol-tree.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsymbol-tree-plugin.so
-
-%{_libdir}/gnome-builder/plugins/sysmon.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysmon.so
-
 %if %{with sysprof}
 %{_libdir}/gnome-builder/plugins/sysprof.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libsysprof-plugin.so
 %endif
-
-%{_libdir}/gnome-builder/plugins/terminal.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libterminal.so
-
-%{_libdir}/gnome-builder/plugins/todo.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libtodo-plugin.so
 
 %if %{with vala_pack}
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
 %endif
 
-%{_libdir}/gnome-builder/plugins/xml-pack.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libxml-pack-plugin.so
-
-%{_libdir}/gnome-builder/plugins/color-picker.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libcolor-picker-plugin.so
-
-%{_libdir}/gnome-builder/plugins/flatpak.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libflatpak-plugin.so
-
-%{_libdir}/gnome-builder/plugins/quick-highlight.plugin
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libquick-highlight-plugin.so
-
-%{_libdir}/gnome-builder/plugins/cmake.plugin
-%{_libdir}/gnome-builder/plugins/cmake_plugin
-
 %{_libdir}/gnome-builder/plugins/make.plugin
-%{_libdir}/gnome-builder/plugins/make_plugin
 
 %{_libdir}/gnome-builder/plugins/mono.plugin
 %{_libdir}/gnome-builder/plugins/mono_plugin.py
@@ -356,13 +229,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/phpize_plugin.py
 
 %{_libdir}/gnome-builder/plugins/rustup.plugin
-%{_libdir}/gnome-builder/plugins/rustup_plugin
 
 %{_libdir}/gnome-builder/plugins/valgrind.plugin
 %{_libdir}/gnome-builder/plugins/valgrind_plugin.gresource
 %{_libdir}/gnome-builder/plugins/valgrind_plugin.py
 
-%{_datadir}/appdata/org.gnome.Builder.appdata.xml
+%{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.build.gschema.xml
@@ -379,33 +251,22 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gtksourceview-3.0/styles/builder*.xml
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/*x*/apps/org.gnome.Builder.png
-%{_iconsdir}/hicolor/symbolic/apps/org.gnome.Builder-symbolic.svg
 %{py3_sitedir}/gi/overrides/Ide.py
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libdazzle-1.0.so
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so
-%attr(755,root,root) %{_libdir}/gnome-builder/libtemplate_glib-1.0.so
 %{_includedir}/gnome-builder
 %dir %{_datadir}/gnome-builder/gir-1.0
-%{_datadir}/gnome-builder/gir-1.0/Dazzle-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Gstyle-1.0.gir
 %{_datadir}/gnome-builder/gir-1.0/Ide-1.0.gir
-%{_datadir}/gnome-builder/gir-1.0/Template-1.0.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
-%{_libdir}/gnome-builder/pkgconfig/libdazzle-1.0.pc
 %{_libdir}/gnome-builder/pkgconfig/libide-1.0.pc
-%{_libdir}/gnome-builder/pkgconfig/template-glib-1.0.pc
 
 %files -n vala-gnome-builder
 %defattr(644,root,root,755)
 %dir %{_datadir}/gnome-builder/vapi
 %{_datadir}/gnome-builder/vapi/gstyle-private.deps
 %{_datadir}/gnome-builder/vapi/gstyle-private.vapi
-%{_datadir}/gnome-builder/vapi/libdazzle-1.0.deps
-%{_datadir}/gnome-builder/vapi/libdazzle-1.0.vapi
 %{_datadir}/gnome-builder/vapi/libide-1.0.deps
 %{_datadir}/gnome-builder/vapi/libide-1.0.vapi
-%{_datadir}/gnome-builder/vapi/template-glib-1.0.deps
-%{_datadir}/gnome-builder/vapi/template-glib-1.0.vapi
