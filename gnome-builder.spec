@@ -9,7 +9,7 @@ Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
 Version:	3.28.0
-Release:	0.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.28/%{name}-%{version}.tar.xz
@@ -58,7 +58,7 @@ BuildRequires:	rpmbuild(macros) >= 1.522
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:  vala-gtksourceview
+BuildRequires:	vala-gtksourceview
 BuildRequires:	vala-jsonrpc-glib
 BuildRequires:	vala-libdazzle
 BuildRequires:	vala-libgit2-glib >= 0.24.0
@@ -177,6 +177,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.*.*.*
 %attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.0
 %attr(755,root,root) %{_libdir}/gnome-builder/libide-1.0.so
+%attr(755,root,root) %{_libdir}/gnome-builder/libgnome-builder-plugins.so
 %dir %{_libdir}/gnome-builder/girepository-1.0
 %{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
 %{_libdir}/gnome-builder/girepository-1.0/Ide-1.0.typelib
@@ -188,12 +189,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/cargo_plugin.py
 
 %{_libdir}/gnome-builder/plugins/eslint.plugin
+%{_libdir}/gnome-builder/plugins/eslint_plugin.py
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.eslint.gschema.xml
 
 %{_libdir}/gnome-builder/plugins/find-other-file.plugin
 %{_libdir}/gnome-builder/plugins/find_other_file.py
 
+%{_libdir}/gnome-builder/plugins/gjs_symbols.plugin
+%{_libdir}/gnome-builder/plugins/gjs_symbols.py
+
+%{_libdir}/gnome-builder/plugins/go-langserv.plugin
+%{_libdir}/gnome-builder/plugins/go_langserver_plugin.py
+
+%{_libdir}/gnome-builder/plugins/html_preview.gresource
 %{_libdir}/gnome-builder/plugins/html-preview.plugin
+%{_libdir}/gnome-builder/plugins/html_preview.py
 
 %{_libdir}/gnome-builder/plugins/jedi.plugin
 %{_libdir}/gnome-builder/plugins/jedi_plugin.py
@@ -201,7 +211,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/jhbuild.plugin
 %{_libdir}/gnome-builder/plugins/jhbuild_plugin.py
 
+%{_libdir}/gnome-builder/plugins/make_plugin.gresource
+%{_libdir}/gnome-builder/plugins/make_plugin.py
+
 %{_libdir}/gnome-builder/plugins/meson-templates.plugin
+%{_libdir}/gnome-builder/plugins/meson_templates.gresource
+%{_libdir}/gnome-builder/plugins/meson_templates.py
 
 %{_libdir}/gnome-builder/plugins/npm.plugin
 %{_libdir}/gnome-builder/plugins/npm_plugin.py
@@ -211,6 +226,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_libdir}/gnome-builder/plugins/rust-langserv.plugin
 %{_libdir}/gnome-builder/plugins/rust_langserv_plugin.py
+
+%{_libdir}/gnome-builder/plugins/rustup_plugin.gresource
+%{_libdir}/gnome-builder/plugins/rustup_plugin.py
 
 %if %{with sysprof}
 %{_libdir}/gnome-builder/plugins/sysprof.plugin
@@ -245,12 +263,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gnome-code-assistance.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugin.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.color_picker_plugin.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.project.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project-tree.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.terminal.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.workbench.gschema.xml
 %{_datadir}/gtksourceview-3.0/styles/builder*.xml
 %{_desktopdir}/org.gnome.Builder.desktop
-%{_iconsdir}/hicolor/*x*/apps/org.gnome.Builder.png
+%{_iconsdir}/hicolor/*x*/apps/org.gnome.Builder*.png
+%{_iconsdir}/hicolor/*x*/actions/*.png
 %{py3_sitedir}/gi/overrides/Ide.py
 
 %files devel
