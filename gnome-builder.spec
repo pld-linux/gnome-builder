@@ -5,17 +5,16 @@
 # Conditional build:
 %bcond_without	sysprof		# sysprof system profiler plugin
 %bcond_without	vala_pack	# vala pack plugin
-%bcond_without	apidocs		# Sphinx based help + gtk-doc API documentation
 #
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.28.4
+Version:	3.32.2
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.28/%{name}-%{version}.tar.xz
-# Source0-md5:	55f62b415c8a8da23d38d5c6c08af57e
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.32/%{name}-%{version}.tar.xz
+# Source0-md5:	2ee275b409ba61ddeab17737961ec415
 # Should be safe to remove when we move to gcc 8
 Patch0:		unknown-gcc-option.patch
 URL:		https://wiki.gnome.org/Apps/Builder
@@ -29,17 +28,17 @@ BuildRequires:	flatpak-devel >= 0.8.0
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
+BuildRequires:	glade-devel
 BuildRequires:	glib2-devel >= 1:2.56.0
 BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gspell-devel >= 1.2.0
 BuildRequires:	gtk+3-devel >= 3.22.26
-%{?with_apidocs:BuildRequires:	gtk-doc >= 1.11}
 BuildRequires:	gtk-webkit4-devel >= 2.12.0
-BuildRequires:	gtksourceview3-devel >= 3.24.0
+BuildRequires:	gtksourceview4-devel
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	jsonrpc-glib-devel >= 3.28.0
-BuildRequires:	libdazzle-devel >= 3.28.0
+BuildRequires:	libdazzle-devel >= 3.32.0
 BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.22.0
 BuildRequires:	libsoup-devel >= 2.52.0
@@ -56,13 +55,12 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
-%{?with_apidocs:BuildRequires:	sphinx-pdg-3}
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.28.0}
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.32.0}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.28.0
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:	vala-gtksourceview >= 3.24.0
-BuildRequires:	vala-libdazzle >= 3.28.0
+BuildRequires:	vala-gtksourceview4
+BuildRequires:	vala-libdazzle >= 3.32.0
 BuildRequires:	vala-libgit2-glib >= 0.25.0
 BuildRequires:	vala-template-glib >= 3.28.0
 %if %{with vala_pack}
@@ -83,11 +81,11 @@ Requires:	glib2 >= 1:2.56.0
 Requires:	gspell >= 1.2.0
 Requires:	gtk+3 >= 3.22.26
 Requires:	gtk-webkit4 >= 2.12.0
-Requires:	gtksourceview3 >= 3.24.0
+Requires:	gtksourceview4
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.28.0
-Requires:	libdazzle >= 3.28.0
+Requires:	libdazzle >= 3.32.0
 Requires:	libgit2-glib >= 0.25.0
 Requires:	libpeas >= 1.22.0
 Requires:	libsoup >= 2.52.0
@@ -95,7 +93,7 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
-%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.28.0}
+%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.32.0}
 Requires:	template-glib >= 3.28.0
 Requires:	vte >= 0.46
 Suggests:	python3-lxml
@@ -120,9 +118,9 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.56.0
 Requires:	gtk+3-devel >= 3.22.26
-Requires:	gtksourceview3-devel >= 3.24.0
+Requires:	gtksourceview4-devel
 Requires:	jsonrpc-glib-devel >= 3.28.0
-Requires:	libdazzle-devel >= 3.28.0
+Requires:	libdazzle-devel >= 3.32.0
 Requires:	libpeas-devel >= 1.22.0
 Requires:	pango-devel >= 1:1.38.0
 Requires:	template-glib-devel >= 3.28.0
@@ -141,8 +139,8 @@ Summary(pl.UTF-8):	API języka Vala dla GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.30
-Requires:	vala-gtksourceview >= 3.24.0
-Requires:	vala-libdazzle >= 3.28.0
+Requires:	vala-gtksourceview4
+Requires:	vala-libdazzle >= 3.32.0
 Requires:	vala-template-glib >= 3.28.0
 %if "%{_rpmversion}" >= "5"
 BuildArch:	noarch
@@ -169,27 +167,12 @@ GNOME Builder documentation.
 %description doc -l pl.UTF-8
 Dokumentacja do GNOME Buildera.
 
-%package apidocs
-Summary:	API documentation for GNOME Builder libraries
-Summary(pl.UTF-8):	Dokumentacja API bibliotek GNOME Buildera
-Group:		Documentation
-%if "%{_rpmversion}" >= "5"
-BuildArch:	noarch
-%endif
-
-%description apidocs
-API documentation for GNOME Builder libraries.
-
-%description apidocs -l pl.UTF-8
-Dokumentacja API bibliotek GNOME Buildera.
-
 %prep
 %setup -q
 %patch0 -p1
 
 %build
 %meson build \
-	%{?with_apidocs:-Dwith_docs=true} \
 	-Dwith_sysprof=%{__true_false sysprof} \
 	-Dwith_vala_pack=%{__true_false vala_pack}
 
@@ -199,10 +182,6 @@ Dokumentacja API bibliotek GNOME Buildera.
 rm -rf $RPM_BUILD_ROOT
 
 %meson_install -C build
-
-%if %{with apidocs}
-%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,.doctrees,_sources}
-%endif
 
 %find_lang %{name} --with-gnome
 
@@ -222,14 +201,10 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS NEWS README.md
 %attr(755,root,root) %{_bindir}/gnome-builder
 %dir %{_libdir}/gnome-builder
-%attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.*.*.*
-%attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so.0
-%attr(755,root,root) %{_libdir}/gnome-builder/libide-1.0.so
-%attr(755,root,root) %{_libdir}/gnome-builder/libgnome-builder-plugins.so
 %dir %{_libdir}/gnome-builder/girepository-1.0
-%{_libdir}/gnome-builder/girepository-1.0/Gstyle-1.0.typelib
-%{_libdir}/gnome-builder/girepository-1.0/Ide-1.0.typelib
+%{_libdir}/gnome-builder/girepository-1.0/Ide-3.32.typelib
 %dir %{_libdir}/gnome-builder/plugins
+%attr(755,root,root) %{_libexecdir}/gnome-builder-clang
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
 
@@ -279,12 +254,23 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/python-gi-imports-completion.plugin
 %{_libdir}/gnome-builder/plugins/python_gi_imports_completion.py
 
-%{_libdir}/gnome-builder/plugins/rust-langserv.plugin
-%{_libdir}/gnome-builder/plugins/rust_langserv_plugin.py
-
 %{_libdir}/gnome-builder/plugins/rustup.plugin
 %{_libdir}/gnome-builder/plugins/rustup_plugin.gresource
 %{_libdir}/gnome-builder/plugins/rustup_plugin.py
+
+%{_libdir}/gnome-builder/plugins/Ide-3.32.metadata
+
+%{_libdir}/gnome-builder/plugins/gradle.plugin
+%{_libdir}/gnome-builder/plugins/gradle_plugin.py
+
+%{_libdir}/gnome-builder/plugins/maven.plugin
+%{_libdir}/gnome-builder/plugins/maven_plugin.py
+
+%{_libdir}/gnome-builder/plugins/rls.plugin
+%{_libdir}/gnome-builder/plugins/rls_plugin.py
+
+%{_libdir}/gnome-builder/plugins/waf.plugin
+%{_libdir}/gnome-builder/plugins/waf_plugin.py
 
 %if %{with sysprof}
 # not installed since 3.28
@@ -292,7 +278,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with vala_pack}
-%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libvala-pack-plugin.so
+%attr(755,root,root) %{_libdir}/gnome-builder/plugins/libplugin-vala-pack.so
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %endif
 
@@ -303,6 +289,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.build.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.clang.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.code-insight.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.editor.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.editor.language.gschema.xml
@@ -315,37 +302,25 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.terminal.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.workbench.gschema.xml
 %{_datadir}/gtksourceview-3.0/styles/builder*.xml
+%{_datadir}/gtksourceview-4/styles/builder*.xml
 %{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %{_desktopdir}/org.gnome.Builder.desktop
-%{_iconsdir}/hicolor/*x*/apps/org.gnome.Builder*.png
-%{_iconsdir}/hicolor/*x*/actions/*.png
+%{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
+%{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
+%{_datadir}/gnome-builder/icons
 %{py3_sitedir}/gi/overrides/Ide.py
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/gnome-builder/libgstyle-private.so
 %{_includedir}/gnome-builder
+%{_includedir}/gnome-builder-3.32
 %dir %{_datadir}/gnome-builder/gir-1.0
-%{_datadir}/gnome-builder/gir-1.0/Gstyle-1.0.gir
-%{_datadir}/gnome-builder/gir-1.0/Ide-1.0.gir
+%{_datadir}/gnome-builder/gir-1.0/Ide-3.32.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
-%{_libdir}/gnome-builder/pkgconfig/libide-1.0.pc
+%{_libdir}/gnome-builder/pkgconfig/gnome-builder-3.32.pc
 
 %files -n vala-gnome-builder
 %defattr(644,root,root,755)
 %dir %{_datadir}/gnome-builder/vapi
-%{_datadir}/gnome-builder/vapi/gstyle-private.deps
-%{_datadir}/gnome-builder/vapi/gstyle-private.vapi
-%{_datadir}/gnome-builder/vapi/libide-1.0.deps
-%{_datadir}/gnome-builder/vapi/libide-1.0.vapi
-
-%if %{with apidocs}
-%files doc
-%defattr(644,root,root,755)
-%dir %{_docdir}/gnome-builder
-%{_docdir}/gnome-builder/en
-
-%files apidocs
-%defattr(644,root,root,755)
-%{_gtkdocdir}/libide
-%endif
+%{_datadir}/gnome-builder/vapi/libide-3.32.deps
+%{_datadir}/gnome-builder/vapi/libide-3.32.vapi
