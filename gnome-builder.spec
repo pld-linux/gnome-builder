@@ -15,6 +15,7 @@ License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.34/%{name}-%{version}.tar.xz
 # Source0-md5:	88e43a49678309a41db35f48aa0ce4fc
+Patch0:		meson0.52.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib-devel
 BuildRequires:	clang-devel >= 3.5
@@ -167,6 +168,7 @@ Dokumentacja do GNOME Buildera.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 %meson build \
@@ -199,9 +201,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnome-builder
 %dir %{_libdir}/gnome-builder
 %dir %{_libdir}/gnome-builder/girepository-1.0
-%{_libdir}/gnome-builder/girepository-1.0/Ide-3.32.typelib
+%{_libdir}/gnome-builder/girepository-1.0/Ide-*.typelib
 %dir %{_libdir}/gnome-builder/plugins
 %attr(755,root,root) %{_libexecdir}/gnome-builder-clang
+%attr(755,root,root) %{_libexecdir}/gnome-builder-git
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
 
@@ -255,7 +258,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/rustup_plugin.gresource
 %{_libdir}/gnome-builder/plugins/rustup_plugin.py
 
-%{_libdir}/gnome-builder/plugins/Ide-3.32.metadata
+#%{_libdir}/gnome-builder/plugins/Ide-*.metadata
 
 %{_libdir}/gnome-builder/plugins/gradle.plugin
 %{_libdir}/gnome-builder/plugins/gradle_plugin.py
@@ -310,14 +313,15 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/gnome-builder
-%{_includedir}/gnome-builder-3.32
+%{_includedir}/gnome-builder-*
 %dir %{_datadir}/gnome-builder/gir-1.0
-%{_datadir}/gnome-builder/gir-1.0/Ide-3.32.gir
+%{_datadir}/gnome-builder/gir-1.0/Ide-*.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
-%{_libdir}/gnome-builder/pkgconfig/gnome-builder-3.32.pc
+%{_libdir}/gnome-builder/pkgconfig/gnome-builder-*.pc
 
 %files -n vala-gnome-builder
 %defattr(644,root,root,755)
 %dir %{_datadir}/gnome-builder/vapi
-%{_datadir}/gnome-builder/vapi/libide-3.32.deps
-%{_datadir}/gnome-builder/vapi/libide-3.32.vapi
+%{_datadir}/gnome-builder/vapi/libide-*.deps
+%{_datadir}/gnome-builder/vapi/libide-*.vapi
+%attr(755,root,root) %{_libexecdir}/gnome-builder-vala
