@@ -17,7 +17,7 @@ Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.34/%{name}-%{ver
 # Source0-md5:	88e43a49678309a41db35f48aa0ce4fc
 Patch0:		meson0.52.patch
 URL:		https://wiki.gnome.org/Apps/Builder
-BuildRequires:	appstream-glib-devel
+BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	desktop-file-utils
 BuildRequires:	devhelp-devel >= 3.26.0
@@ -27,17 +27,17 @@ BuildRequires:	flatpak-devel >= 0.8.0
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
-BuildRequires:	glade-devel
-BuildRequires:	glib2-devel >= 1:2.56.0
+BuildRequires:	glade-devel >= 3.22.0
+BuildRequires:	glib2-devel >= 1:2.61.2
 BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gspell-devel >= 1.2.0
 BuildRequires:	gtk+3-devel >= 3.22.26
-BuildRequires:	gtk-webkit4-devel >= 2.12.0
-BuildRequires:	gtksourceview4-devel
+BuildRequires:	gtk-webkit4-devel >= 2.22
+BuildRequires:	gtksourceview4-devel >= 4.0.0
 BuildRequires:	intltool >= 0.50.1
 BuildRequires:	json-glib-devel >= 1.2.0
-BuildRequires:	jsonrpc-glib-devel >= 3.28.0
-BuildRequires:	libdazzle-devel >= 3.32.0
+BuildRequires:	jsonrpc-glib-devel >= 3.30.0
+BuildRequires:	libdazzle-devel >= 3.34.0
 BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.22.0
 BuildRequires:	libsoup-devel >= 2.52.0
@@ -46,45 +46,47 @@ BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	meson >= 0.44.0
+BuildRequires:	meson >= 0.50.0
 BuildRequires:	ninja
+BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
 BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.32.0}
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.33.4}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.28.0
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:	vala-gtksourceview4
-BuildRequires:	vala-libdazzle >= 3.32.0
+BuildRequires:	vala-gtksourceview4 >= 4.0.0
+BuildRequires:	vala-libdazzle >= 3.34.0
 BuildRequires:	vala-libgit2-glib >= 0.25.0
 BuildRequires:	vala-template-glib >= 3.28.0
 %if %{with vala_pack}
-BuildRequires:	vala-jsonrpc-glib >= 3.28.0
+BuildRequires:	vala-jsonrpc-glib >= 3.30.0
 BuildRequires:	vala-vte >= 0.46
 %endif
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
-Requires(post,postun):	glib2 >= 1:2.56.0
+Requires(post,postun):	glib2 >= 1:2.61.2
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	ctags
 Requires:	devhelp-libs >= 3.26.0
 Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 0.8.0
 Requires:	gjs >= 1.42.0
-Requires:	glib2 >= 1:2.56.0
+Requires:	glade-libs >= 3.22.0
+Requires:	glib2 >= 1:2.61.2
 Requires:	gspell >= 1.2.0
 Requires:	gtk+3 >= 3.22.26
-Requires:	gtk-webkit4 >= 2.12.0
-Requires:	gtksourceview4
+Requires:	gtk-webkit4 >= 2.22
+Requires:	gtksourceview4 >= 4.0.0
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
-Requires:	jsonrpc-glib >= 3.28.0
-Requires:	libdazzle >= 3.32.0
+Requires:	jsonrpc-glib >= 3.30.0
+Requires:	libdazzle >= 3.34.0
 Requires:	libgit2-glib >= 0.25.0
 Requires:	libpeas >= 1.22.0
 Requires:	libsoup >= 2.52.0
@@ -92,7 +94,7 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
-%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.32.0}
+%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.33.4}
 Requires:	template-glib >= 3.28.0
 Requires:	vte >= 0.46
 Suggests:	python3-lxml
@@ -115,11 +117,11 @@ Summary:	Development files for GNOME Builder
 Summary(pl.UTF-8):	Pliki programistyczne GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.56.0
+Requires:	glib2-devel >= 1:2.61.2
 Requires:	gtk+3-devel >= 3.22.26
-Requires:	gtksourceview4-devel
-Requires:	jsonrpc-glib-devel >= 3.28.0
-Requires:	libdazzle-devel >= 3.32.0
+Requires:	gtksourceview4-devel >= 4.0.0
+Requires:	jsonrpc-glib-devel >= 3.30.0
+Requires:	libdazzle-devel >= 3.34.0
 Requires:	libpeas-devel >= 1.22.0
 Requires:	pango-devel >= 1:1.38.0
 Requires:	template-glib-devel >= 3.28.0
@@ -138,8 +140,8 @@ Summary(pl.UTF-8):	API języka Vala dla GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name}-devel = %{version}-%{release}
 Requires:	vala >= 2:0.30
-Requires:	vala-gtksourceview4
-Requires:	vala-libdazzle >= 3.32.0
+Requires:	vala-gtksourceview4 >= 4.0.0
+Requires:	vala-libdazzle >= 3.34.0
 Requires:	vala-template-glib >= 3.28.0
 
 %description -n vala-gnome-builder
@@ -169,8 +171,8 @@ Dokumentacja do GNOME Buildera.
 
 %build
 %meson build \
-	-Dwith_sysprof=%{__true_false sysprof} \
-	-Dwith_vala_pack=%{__true_false vala_pack}
+	-Dplugin_sysprof=%{__true_false sysprof} \
+	-Dplugin_vala=%{__true_false vala_pack}
 
 %meson_build -C build
 
