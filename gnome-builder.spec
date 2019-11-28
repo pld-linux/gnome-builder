@@ -1,21 +1,23 @@
 # TODO:
-# - deviced (BR: libdeviced-devel >= 3.27.4)
+# - deviced plugin (BR: libdeviced-devel >= 3.27.4)
 # - fix warning: jedi not found, python auto-completion not possible.
 #
 # Conditional build:
 %bcond_without	sysprof		# sysprof system profiler plugin
 %bcond_without	vala_pack	# vala pack plugin
+%bcond_without	apidocs		# Sphinx based help + gtk-doc API documentation
 #
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
 Version:	3.34.1
-Release:	4
+Release:	5
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.34/%{name}-%{version}.tar.xz
 # Source0-md5:	88e43a49678309a41db35f48aa0ce4fc
 Patch0:		meson0.52.patch
+Patch1:		%{name}-doc.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -32,6 +34,7 @@ BuildRequires:	glib2-devel >= 1:2.61.2
 BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gspell-devel >= 1.2.0
 BuildRequires:	gtk+3-devel >= 3.22.26
+%{?with_apidocs:BuildRequires:	gtk-doc >= 1.11}
 BuildRequires:	gtk-webkit4-devel >= 2.22
 BuildRequires:	gtksourceview4-devel >= 4.0.0
 BuildRequires:	intltool >= 0.50.1
@@ -55,6 +58,7 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.522
+%{?with_apidocs:BuildRequires:	sphinx-pdg-3}
 %{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.33.4}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.28.0
@@ -63,9 +67,9 @@ BuildRequires:	vala-gtksourceview4 >= 4.0.0
 BuildRequires:	vala-libdazzle >= 3.34.0
 BuildRequires:	vala-libgit2-glib >= 0.25.0
 BuildRequires:	vala-template-glib >= 3.28.0
+BuildRequires:	vala-vte >= 0.46
 %if %{with vala_pack}
 BuildRequires:	vala-jsonrpc-glib >= 3.30.0
-BuildRequires:	vala-vte >= 0.46
 %endif
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
@@ -98,7 +102,6 @@ Requires:	python3-pygobject3 >= 3.22.0
 Requires:	template-glib >= 3.28.0
 Requires:	vte >= 0.46
 Suggests:	python3-lxml
-Obsoletes:	gnome-builder-apidocs
 Obsoletes:	gnome-builder-mm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -143,6 +146,7 @@ Requires:	vala >= 2:0.30
 Requires:	vala-gtksourceview4 >= 4.0.0
 Requires:	vala-libdazzle >= 3.34.0
 Requires:	vala-template-glib >= 3.28.0
+Requires:	vala-vte >= 0.46
 
 %description -n vala-gnome-builder
 Vala API for GNOME Builder.
@@ -165,14 +169,35 @@ GNOME Builder documentation.
 %description doc -l pl.UTF-8
 Dokumentacja do GNOME Buildera.
 
+%package apidocs
+Summary:	API documentation for GNOME Builder libraries
+Summary(pl.UTF-8):	Dokumentacja API bibliotek GNOME Buildera
+Group:		Documentation
+%if "%{_rpmversion}" >= "5"
+BuildArch:	noarch
+%endif
+
+%description apidocs
+API documentation for GNOME Builder libraries.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API bibliotek GNOME Buildera.
+
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 %build
 %meson build \
+%if %{with apidocs}
+	-Ddocs=true \
+	-Dhelp=true \
+%endif
 	-Dplugin_sysprof=%{__true_false sysprof} \
+	-Dplugin_vagrant=true \
 	-Dplugin_vala=%{__true_false vala_pack}
+# -Dplugin_deviced=true
 
 %meson_build -C build
 
@@ -180,6 +205,10 @@ Dokumentacja do GNOME Buildera.
 rm -rf $RPM_BUILD_ROOT
 
 %meson_install -C build
+
+%if %{with apidocs}
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,.doctrees,_sources}
+%endif
 
 %find_lang %{name} --with-gnome
 
@@ -206,6 +235,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/gnome-builder-git
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
+%{_datadir}/gnome-builder/icons
 
 %{_libdir}/gnome-builder/plugins/cargo.plugin
 %{_libdir}/gnome-builder/plugins/cargo_plugin.py
@@ -257,8 +287,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/rustup_plugin.gresource
 %{_libdir}/gnome-builder/plugins/rustup_plugin.py
 
-#%{_libdir}/gnome-builder/plugins/Ide-*.metadata
-
 %{_libdir}/gnome-builder/plugins/gradle.plugin
 %{_libdir}/gnome-builder/plugins/gradle_plugin.py
 
@@ -277,6 +305,7 @@ rm -rf $RPM_BUILD_ROOT
 %endif
 
 %if %{with vala_pack}
+%attr(755,root,root) %{_libexecdir}/gnome-builder-vala
 %attr(755,root,root) %{_libdir}/gnome-builder/plugins/libplugin-vala-pack.so
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %endif
@@ -306,7 +335,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
-%{_datadir}/gnome-builder/icons
 %{py3_sitedir}/gi/overrides/Ide.py
 
 %files devel
@@ -323,4 +351,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/gnome-builder/vapi
 %{_datadir}/gnome-builder/vapi/libide-*.deps
 %{_datadir}/gnome-builder/vapi/libide-*.vapi
-%attr(755,root,root) %{_libexecdir}/gnome-builder-vala
+
+%if %{with apidocs}
+%files doc
+%defattr(644,root,root,755)
+%dir %{_docdir}/gnome-builder
+%{_docdir}/gnome-builder/en
+
+%files apidocs
+%defattr(644,root,root,755)
+%{_gtkdocdir}/libide
+%endif
