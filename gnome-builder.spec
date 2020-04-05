@@ -188,6 +188,11 @@ Dokumentacja API bibliotek GNOME Buildera.
 %patch0 -p1
 %patch1 -p1
 
+grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
+	s,^#!.*bin/env python3,#!%{__python3},
+	s,^#!.*bin/env python$,#!%{__python},
+}'
+
 %build
 %meson build \
 %if %{with apidocs}
