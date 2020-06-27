@@ -1,6 +1,5 @@
 # TODO:
 # - deviced plugin (BR: libdeviced-devel >= 3.27.4)
-# - fix warning: jedi not found, python auto-completion not possible.
 #
 # Conditional build:
 %bcond_without	sysprof		# sysprof system profiler plugin
@@ -10,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.36.0
-Release:	2
+Version:	3.36.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.36/%{name}-%{version}.tar.xz
-# Source0-md5:	3e36a5cd40e58231bbbb47c01cb5d888
+# Source0-md5:	6004c30ebe74aedc0d5610d23647e373
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -97,7 +96,7 @@ Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.33.4}
 Requires:	template-glib >= 3.28.0
 Requires:	vte >= 0.46
-#Suggests:	python3-jedi
+Suggests:	python3-jedi
 Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
