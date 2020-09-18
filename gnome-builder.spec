@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.36.1
+Version:	3.38.0
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.36/%{name}-%{version}.tar.xz
-# Source0-md5:	6004c30ebe74aedc0d5610d23647e373
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.38/%{name}-%{version}.tar.xz
+# Source0-md5:	b9ae0e78733ea88971f8feeb3deb26a7
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -27,16 +27,16 @@ BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
 BuildRequires:	glade-devel >= 3.22.0
-BuildRequires:	glib2-devel >= 1:2.61.2
+BuildRequires:	glib2-devel >= 1:2.65.0
 BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gspell-devel >= 1.2.0
 BuildRequires:	gtk+3-devel >= 3.22.26
 %{?with_apidocs:BuildRequires:	gtk-doc >= 1.11}
-BuildRequires:	gtk-webkit4-devel >= 2.22
+BuildRequires:	gtk-webkit4-devel >= 2.26
 BuildRequires:	gtksourceview4-devel >= 4.0.0
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	jsonrpc-glib-devel >= 3.30.0
-BuildRequires:	libdazzle-devel >= 3.34.0
+BuildRequires:	libdazzle-devel >= 3.37.0
 BuildRequires:	libgit2-glib-devel >= 0.25.0
 BuildRequires:	libpeas-devel >= 1.22.0
 BuildRequires:	libportal-devel >= 0.3
@@ -46,7 +46,7 @@ BuildRequires:	libstdc++-devel >= 6:4.7
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	meson >= 0.51.2
+BuildRequires:	meson >= 0.54.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
@@ -56,19 +56,19 @@ BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpmbuild(macros) >= 1.736
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.33.4}
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.37.1}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.28.0
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-gtksourceview4 >= 4.0.0
-BuildRequires:	vala-libdazzle >= 3.34.0
+BuildRequires:	vala-libdazzle >= 3.37.0
 BuildRequires:	vala-libgit2-glib >= 0.25.0
 BuildRequires:	vala-template-glib >= 3.28.0
 BuildRequires:	vala-vte >= 0.46
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
-Requires(post,postun):	glib2 >= 1:2.61.2
+Requires(post,postun):	glib2 >= 1:2.65.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	ctags
 Requires:	devhelp-libs >= 3.26.0
@@ -76,15 +76,15 @@ Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 0.8.0
 Requires:	gjs >= 1.42.0
 Requires:	glade-libs >= 3.22.0
-Requires:	glib2 >= 1:2.61.2
+Requires:	glib2 >= 1:2.65.0
 Requires:	gspell >= 1.2.0
 Requires:	gtk+3 >= 3.22.26
-Requires:	gtk-webkit4 >= 2.22
+Requires:	gtk-webkit4 >= 2.26
 Requires:	gtksourceview4 >= 4.0.0
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.30.0
-Requires:	libdazzle >= 3.34.0
+Requires:	libdazzle >= 3.37.0
 Requires:	libgit2-glib >= 0.25.0
 Requires:	libpeas >= 1.22.0
 Requires:	libportal >= 0.3
@@ -93,7 +93,7 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
-%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.33.4}
+%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.37.1}
 Requires:	template-glib >= 3.28.0
 Requires:	vte >= 0.46
 Suggests:	python3-jedi
@@ -101,7 +101,7 @@ Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		apiver	3.36
+%define		apiver	3.38
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -118,11 +118,11 @@ Summary:	Development files for GNOME Builder
 Summary(pl.UTF-8):	Pliki programistyczne GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.61.2
+Requires:	glib2-devel >= 1:2.65.0
 Requires:	gtk+3-devel >= 3.22.26
 Requires:	gtksourceview4-devel >= 4.0.0
 Requires:	jsonrpc-glib-devel >= 3.30.0
-Requires:	libdazzle-devel >= 3.34.0
+Requires:	libdazzle-devel >= 3.37.0
 Requires:	libpeas-devel >= 1.22.0
 Requires:	pango-devel >= 1:1.38.0
 Requires:	template-glib-devel >= 3.28.0
@@ -179,6 +179,7 @@ grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 	-Ddocs=true \
 	-Dhelp=true \
 %endif
+	-Dplugin_rls=true \
 	-Dplugin_sysprof=%{__true_false sysprof} \
 	-Dplugin_vagrant=true \
 	-Dplugin_vala=%{__true_false vala_pack}
@@ -192,7 +193,7 @@ rm -rf $RPM_BUILD_ROOT
 %meson_install -C build
 
 %if %{with apidocs}
-%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,.doctrees,_sources}
+%{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,_sources,objects.inv}
 %endif
 
 %find_lang %{name} --with-gnome
@@ -322,10 +323,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.color_picker_plugin.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project-tree.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.rust-analyzer.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.terminal.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.workbench.gschema.xml
-%{_datadir}/gtksourceview-3.0/styles/builder*.xml
-%{_datadir}/gtksourceview-4/styles/builder*.xml
+%{_datadir}/gtksourceview-4/styles/Adwaita*.style-scheme.xml
+%{_datadir}/gtksourceview-4/styles/builder*.style-scheme.xml
 %{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
