@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.38.0
+Version:	3.38.1
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	b9ae0e78733ea88971f8feeb3deb26a7
+# Source0-md5:	40b03ca71dd0e37693819b05d9fa8ffd
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -54,7 +54,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
-BuildRequires:	rpmbuild(macros) >= 1.736
+BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
 %{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.37.1}
 BuildRequires:	tar >= 1:1.22
@@ -141,9 +141,7 @@ Summary:	GNOME Builder documentation
 Summary(pl.UTF-8):	Dokumentacja do GNOME Buildera
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
-%if "%{_rpmversion}" >= "4.6"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description doc
 GNOME Builder documentation.
@@ -155,9 +153,7 @@ Dokumentacja do GNOME Buildera.
 Summary:	API documentation for GNOME Builder libraries
 Summary(pl.UTF-8):	Dokumentacja API bibliotek GNOME Buildera
 Group:		Documentation
-%if "%{_rpmversion}" >= "4.6"
-BuildArch:	noarch
-%endif
+%{?noarchpackage}
 
 %description apidocs
 API documentation for GNOME Builder libraries.
