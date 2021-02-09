@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.38.1
-Release:	3
+Version:	3.38.2
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/gnome-builder/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	40b03ca71dd0e37693819b05d9fa8ffd
+Source0:	https://download.gnome.org/sources/gnome-builder/3.38/%{name}-%{version}.tar.xz
+# Source0-md5:	00e97a42fb6b734236f7d947021b8f9e
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
