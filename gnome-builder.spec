@@ -141,7 +141,7 @@ Summary:	GNOME Builder documentation
 Summary(pl.UTF-8):	Dokumentacja do GNOME Buildera
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description doc
 GNOME Builder documentation.
@@ -153,7 +153,7 @@ Dokumentacja do GNOME Buildera.
 Summary:	API documentation for GNOME Builder libraries
 Summary(pl.UTF-8):	Dokumentacja API bibliotek GNOME Buildera
 Group:		Documentation
-%{?noarchpackage}
+BuildArch:	noarch
 
 %description apidocs
 API documentation for GNOME Builder libraries.
