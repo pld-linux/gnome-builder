@@ -3,18 +3,17 @@
 #
 # Conditional build:
 %bcond_without	sysprof		# sysprof system profiler plugin
-%bcond_without	vala_pack	# vala pack plugin
 %bcond_without	apidocs		# Sphinx based help + gtk-doc API documentation
 #
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.38.2
-Release:	2
+Version:	3.40.0
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/3.38/%{name}-%{version}.tar.xz
-# Source0-md5:	00e97a42fb6b734236f7d947021b8f9e
+Source0:	https://download.gnome.org/sources/gnome-builder/3.40/%{name}-%{version}.tar.xz
+# Source0-md5:	7e45906618bac6adc366acd0019999b6
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -54,6 +53,7 @@ BuildRequires:	pcre-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
 %{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.37.1}
@@ -98,10 +98,10 @@ Requires:	template-glib >= 3.28.0
 Requires:	vte >= 0.46
 Suggests:	python3-jedi
 Suggests:	python3-lxml
-Obsoletes:	gnome-builder-mm
+Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		apiver	3.38
+%define		apiver	3.40
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -127,7 +127,7 @@ Requires:	libpeas-devel >= 1.22.0
 Requires:	pango-devel >= 1:1.38.0
 Requires:	template-glib-devel >= 3.28.0
 Requires:	vte-devel >= 0.46
-Obsoletes:	gnome-builder-mm-devel
+Obsoletes:	gnome-builder-mm-devel < 3.24
 Obsoletes:	vala-gnome-builder < 3.36
 
 %description devel
@@ -177,8 +177,7 @@ grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 %endif
 	-Dplugin_rls=true \
 	-Dplugin_sysprof=%{__true_false sysprof} \
-	-Dplugin_vagrant=true \
-	-Dplugin_vala=%{__true_false vala_pack}
+	-Dplugin_vagrant=true
 # -Dplugin_deviced=true
 
 %meson_build -C build
@@ -272,10 +271,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/python-gi-imports-completion.plugin
 %{_libdir}/gnome-builder/plugins/python_gi_imports_completion.py
 
-%{_libdir}/gnome-builder/plugins/rustup.plugin
-%{_libdir}/gnome-builder/plugins/rustup_plugin.gresource
-%{_libdir}/gnome-builder/plugins/rustup_plugin.py
-
 %{_libdir}/gnome-builder/plugins/gradle.plugin
 %{_libdir}/gnome-builder/plugins/gradle_plugin.py
 
@@ -297,10 +292,8 @@ rm -rf $RPM_BUILD_ROOT
 #%{_libdir}/gnome-builder/plugins/sysprof.plugin
 %endif
 
-%if %{with vala_pack}
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %{_libdir}/gnome-builder/plugins/vala_pack_plugin.py
-%endif
 
 %{_libdir}/gnome-builder/plugins/valgrind.plugin
 %{_libdir}/gnome-builder/plugins/valgrind_plugin.gresource
