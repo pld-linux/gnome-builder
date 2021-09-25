@@ -1,36 +1,38 @@
 # TODO:
 # - deviced plugin (BR: libdeviced-devel >= 3.27.4)
+# - libcmark >= 0.29.0
 #
 # Conditional build:
 %bcond_without	sysprof		# sysprof system profiler plugin
-%bcond_without	apidocs		# Sphinx based help + gtk-doc API documentation
+%bcond_without	apidocs		# Sphinx based help + gi-docgen API documentation
 #
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	3.40.2
-Release:	4
+Version:	41.0
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/3.40/%{name}-%{version}.tar.xz
-# Source0-md5:	3b2b49a5e3ef87b0df6c6b4a9096d2bd
+Source0:	https://download.gnome.org/sources/gnome-builder/41/%{name}-%{version}.tar.xz
+# Source0-md5:	5069782482ca7ac018320354afdfcdf4
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
+BuildRequires:	cmark-devel >= 0.29.0
 BuildRequires:	desktop-file-utils
 BuildRequires:	devhelp-devel >= 3.26.0
 BuildRequires:	enchant2-devel >= 2
-BuildRequires:	flatpak-devel >= 0.8.0
+BuildRequires:	flatpak-devel >= 1.10.2
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	gjs-devel >= 1.42.0
 BuildRequires:	glade-devel >= 3.22.0
-BuildRequires:	glib2-devel >= 1:2.65.0
+BuildRequires:	glib2-devel >= 1:2.69.1
 BuildRequires:	gobject-introspection-devel >= 1.48.0
 BuildRequires:	gspell-devel >= 1.2.0
-BuildRequires:	gtk+3-devel >= 3.22.26
-%{?with_apidocs:BuildRequires:	gtk-doc >= 1.11}
+BuildRequires:	gtk+3-devel >= 3.24
+%{?with_apidocs:BuildRequires:	gi-docgen}
 BuildRequires:	gtk-webkit4-devel >= 2.26
 BuildRequires:	gtksourceview4-devel >= 4.0.0
 BuildRequires:	json-glib-devel >= 1.2.0
@@ -49,10 +51,11 @@ BuildRequires:	meson >= 0.54.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-common-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 BuildRequires:	python3-pygobject3-devel >= 3.22.0
+%{?with_apidocs:BuildRequires:	python3-sphinx_rtd_theme}
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
@@ -68,17 +71,18 @@ BuildRequires:	vala-vte >= 0.46
 BuildRequires:	vte-devel >= 0.46
 BuildRequires:	xz
 BuildRequires:	yelp-tools
-Requires(post,postun):	glib2 >= 1:2.65.0
+Requires(post,postun):	glib2 >= 1:2.69.1
 Requires(post,postun):	gtk-update-icon-cache
+Requires:	cmark-lib >= 0.29.0
 Requires:	ctags
 Requires:	devhelp-libs >= 3.26.0
 Requires:	enchant2 >= 2
-Requires:	flatpak-libs >= 0.8.0
+Requires:	flatpak-libs >= 1.10.2
 Requires:	gjs >= 1.42.0
 Requires:	glade-libs >= 3.22.0
-Requires:	glib2 >= 1:2.65.0
+Requires:	glib2 >= 1:2.69.1
 Requires:	gspell >= 1.2.0
-Requires:	gtk+3 >= 3.22.26
+Requires:	gtk+3 >= 3.24
 Requires:	gtk-webkit4 >= 2.26
 Requires:	gtksourceview4 >= 4.0.0
 Requires:	hicolor-icon-theme
@@ -101,7 +105,8 @@ Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		apiver	3.40
+%define		abiver	41.0
+%define		apiver	41
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -118,8 +123,8 @@ Summary:	Development files for GNOME Builder
 Summary(pl.UTF-8):	Pliki programistyczne GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.65.0
-Requires:	gtk+3-devel >= 3.22.26
+Requires:	glib2-devel >= 1:2.69.1
+Requires:	gtk+3-devel >= 3.24
 Requires:	gtksourceview4-devel >= 4.0.0
 Requires:	jsonrpc-glib-devel >= 3.30.0
 Requires:	libdazzle-devel >= 3.37.0
@@ -189,6 +194,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %if %{with apidocs}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,_sources,objects.inv}
+
+# FIXME: where to package gi-docgen generated docs?
+install -d $RPM_BUILD_ROOT%{_gtkdocdir}
+%{__mv} $RPM_BUILD_ROOT%{_docdir}/libide $RPM_BUILD_ROOT%{_gtkdocdir}
 %endif
 
 %find_lang %{name} --with-gnome
@@ -210,9 +219,10 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/gnome-builder
 %dir %{_libdir}/gnome-builder
 %dir %{_libdir}/gnome-builder/girepository-1.0
-%{_libdir}/gnome-builder/girepository-1.0/Ide-%{apiver}.typelib
+%{_libdir}/gnome-builder/girepository-1.0/Ide-%{abiver}.typelib
 %dir %{_libdir}/gnome-builder/plugins
 %attr(755,root,root) %{_libexecdir}/gnome-builder-clang
+%attr(755,root,root) %{_libexecdir}/gnome-builder-flatpak
 %attr(755,root,root) %{_libexecdir}/gnome-builder-git
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
@@ -245,8 +255,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/html-preview.plugin
 %{_libdir}/gnome-builder/plugins/html_preview.py
 
-%{_libdir}/gnome-builder/plugins/jedi.plugin
-%{_libdir}/gnome-builder/plugins/jedi_plugin.py
+%{_libdir}/gnome-builder/plugins/jedi-language-server.plugin
+%{_libdir}/gnome-builder/plugins/jedi_language_server_plugin.py
 
 %{_libdir}/gnome-builder/plugins/jhbuild.plugin
 %{_libdir}/gnome-builder/plugins/jhbuild_plugin.py
@@ -295,6 +305,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %{_libdir}/gnome-builder/plugins/vala_pack_plugin.py
 
+%{_libdir}/gnome-builder/plugins/vala_langserv.plugin
+%{_libdir}/gnome-builder/plugins/vala_langserv.py
+
 %{_libdir}/gnome-builder/plugins/valgrind.plugin
 %{_libdir}/gnome-builder/plugins/valgrind_plugin.gresource
 %{_libdir}/gnome-builder/plugins/valgrind_plugin.py
@@ -328,9 +341,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/gnome-builder
 %{_includedir}/gnome-builder-%{apiver}
 %dir %{_datadir}/gnome-builder/gir-1.0
-%{_datadir}/gnome-builder/gir-1.0/Ide-%{apiver}.gir
+%{_datadir}/gnome-builder/gir-1.0/Ide-%{abiver}.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
-%{_libdir}/gnome-builder/pkgconfig/gnome-builder-%{apiver}.pc
+%{_libdir}/gnome-builder/pkgconfig/gnome-builder-%{abiver}.pc
 
 %if %{with apidocs}
 %files doc
