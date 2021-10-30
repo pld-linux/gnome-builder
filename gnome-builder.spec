@@ -1,6 +1,5 @@
 # TODO:
 # - deviced plugin (BR: libdeviced-devel >= 3.27.4)
-# - libcmark >= 0.29.0
 #
 # Conditional build:
 %bcond_without	sysprof		# sysprof system profiler plugin
