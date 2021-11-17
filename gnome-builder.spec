@@ -8,12 +8,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	41.0
-Release:	3
+Version:	41.2
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/41/%{name}-%{version}.tar.xz
-# Source0-md5:	5069782482ca7ac018320354afdfcdf4
+# Source0-md5:	977f29be13a1c291163c1cc0eef7ffdb
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -342,7 +342,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/gnome-builder/gir-1.0
 %{_datadir}/gnome-builder/gir-1.0/Ide-%{abiver}.gir
 %dir %{_libdir}/gnome-builder/pkgconfig
-%{_libdir}/gnome-builder/pkgconfig/gnome-builder-%{abiver}.pc
+%{_libdir}/gnome-builder/pkgconfig/gnome-builder-%{version}.pc
 
 %if %{with apidocs}
 %files doc
