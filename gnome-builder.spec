@@ -8,12 +8,13 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	41.2
+Version:	41.3
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/41/%{name}-%{version}.tar.xz
-# Source0-md5:	977f29be13a1c291163c1cc0eef7ffdb
+# Source0-md5:	802ba2b06939da5df11d9a34f7c499d2
+Patch0:		%{name}-format.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -21,7 +22,7 @@ BuildRequires:	cmark-devel >= 0.29.0
 BuildRequires:	desktop-file-utils
 BuildRequires:	devhelp-devel >= 3.26.0
 BuildRequires:	enchant2-devel >= 2
-BuildRequires:	flatpak-devel >= 1.10.2
+BuildRequires:	flatpak-devel >= 1.11.2
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
@@ -76,7 +77,7 @@ Requires:	cmark-lib >= 0.29.0
 Requires:	ctags
 Requires:	devhelp-libs >= 3.26.0
 Requires:	enchant2 >= 2
-Requires:	flatpak-libs >= 1.10.2
+Requires:	flatpak-libs >= 1.11.2
 Requires:	gjs >= 1.42.0
 Requires:	glade-libs >= 3.22.0
 Requires:	glib2 >= 1:2.69.1
@@ -167,6 +168,7 @@ Dokumentacja API bibliotek GNOME Buildera.
 
 %prep
 %setup -q
+%patch0 -p1
 
 grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 	s,^#!.*bin/env python3,#!%{__python3},
