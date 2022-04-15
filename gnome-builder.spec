@@ -354,7 +354,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
-%{py3_sitedir}/gi/overrides/Ide.py
+%{py3_sitescriptdir}/gi/overrides/Ide.py
 
 %files devel
 %defattr(644,root,root,755)
