@@ -8,13 +8,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	41.3
-Release:	3
+Version:	42.0
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/41/%{name}-%{version}.tar.xz
-# Source0-md5:	802ba2b06939da5df11d9a34f7c499d2
-Patch0:		%{name}-format.patch
+Source0:	https://download.gnome.org/sources/gnome-builder/42/%{name}-%{version}.tar.xz
+# Source0-md5:	345023a9d74f96d5c2779cd3943f7956
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -36,14 +35,15 @@ BuildRequires:	gtk+3-devel >= 3.24
 BuildRequires:	gtk-webkit4-devel >= 2.26
 BuildRequires:	gtksourceview4-devel >= 4.0.0
 BuildRequires:	json-glib-devel >= 1.2.0
-BuildRequires:	jsonrpc-glib-devel >= 3.30.0
+BuildRequires:	jsonrpc-glib-devel >= 3.41.0
 BuildRequires:	libdazzle-devel >= 3.37.0
-BuildRequires:	libgit2-glib-devel >= 0.25.0
+BuildRequires:	libgit2-glib-devel >= 0.28.0.1
+BuildRequires:	libhandy1-devel >= 1.5.0
 BuildRequires:	libpeas-devel >= 1.22.0
-BuildRequires:	libportal-devel >= 0.3
+BuildRequires:	libportal-gtk3-devel
 BuildRequires:	libsoup-devel >= 2.52.0
-# C++11
-BuildRequires:	libstdc++-devel >= 6:4.7
+# -std=c++2a
+BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
@@ -51,6 +51,7 @@ BuildRequires:	meson >= 0.54.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
+BuildRequires:	pcre-devel
 BuildRequires:	pcre2-common-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
@@ -59,16 +60,17 @@ BuildRequires:	python3-pygobject3-devel >= 3.22.0
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
+%{?with_sysprof:BuildRequires:	sysprof-devel >= 3.37.1}
 %{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.37.1}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.28.0
 BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-gtksourceview4 >= 4.0.0
 BuildRequires:	vala-libdazzle >= 3.37.0
-BuildRequires:	vala-libgit2-glib >= 0.25.0
+BuildRequires:	vala-libgit2-glib >= 0.28.0.1
 BuildRequires:	vala-template-glib >= 3.28.0
-BuildRequires:	vala-vte >= 0.46
-BuildRequires:	vte-devel >= 0.46
+BuildRequires:	vala-vte >= 0.65.0
+BuildRequires:	vte-devel >= 0.65.0
 BuildRequires:	xz
 BuildRequires:	yelp-tools
 Requires(post,postun):	glib2 >= 1:2.69.1
@@ -87,9 +89,10 @@ Requires:	gtk-webkit4 >= 2.26
 Requires:	gtksourceview4 >= 4.0.0
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
-Requires:	jsonrpc-glib >= 3.30.0
+Requires:	jsonrpc-glib >= 3.41.0
 Requires:	libdazzle >= 3.37.0
-Requires:	libgit2-glib >= 0.25.0
+Requires:	libgit2-glib >= 0.28.0.1
+Requires:	libhandy1 >= 1.5.0
 Requires:	libpeas >= 1.22.0
 Requires:	libportal >= 0.3
 Requires:	libsoup >= 2.52.0
@@ -99,14 +102,14 @@ Requires:	python3-modules >= 1:3.2.3
 Requires:	python3-pygobject3 >= 3.22.0
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.37.1}
 Requires:	template-glib >= 3.28.0
-Requires:	vte >= 0.46
+Requires:	vte >= 0.65.0
 Suggests:	python3-jedi
 Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	41.0
-%define		apiver	41
+%define		abiver	42.0
+%define		apiver	42
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -126,10 +129,8 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.69.1
 Requires:	gtk+3-devel >= 3.24
 Requires:	gtksourceview4-devel >= 4.0.0
-Requires:	jsonrpc-glib-devel >= 3.30.0
 Requires:	libdazzle-devel >= 3.37.0
 Requires:	libpeas-devel >= 1.22.0
-Requires:	pango-devel >= 1:1.38.0
 Requires:	template-glib-devel >= 3.28.0
 Requires:	vte-devel >= 0.46
 Obsoletes:	gnome-builder-mm-devel < 3.24
@@ -168,7 +169,6 @@ Dokumentacja API bibliotek GNOME Buildera.
 
 %prep
 %setup -q
-%patch0 -p1
 
 grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 	s,^#!.*bin/env python3,#!%{__python3},
@@ -181,6 +181,8 @@ grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 	-Ddocs=true \
 	-Dhelp=true \
 %endif
+	-Dplugin_clangd=true \
+	-Dplugin_gvls=true \
 	-Dplugin_rls=true \
 	-Dplugin_sysprof=%{__true_false sysprof} \
 	-Dplugin_vagrant=true
@@ -229,8 +231,18 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnome-builder/fonts
 %{_datadir}/gnome-builder/icons
 
+%{_libdir}/gnome-builder/plugins/blueprint.plugin
+%{_libdir}/gnome-builder/plugins/blueprint_plugin.py
+%{_datadir}/gtksourceview-4/language-specs/blueprint.lang
+
+%{_libdir}/gnome-builder/plugins/buildstream.plugin
+%{_libdir}/gnome-builder/plugins/buildstream_plugin.py
+
 %{_libdir}/gnome-builder/plugins/cargo.plugin
 %{_libdir}/gnome-builder/plugins/cargo_plugin.py
+
+%{_libdir}/gnome-builder/plugins/clangd.plugin
+%{_libdir}/gnome-builder/plugins/clangd_plugin.py
 
 %{_libdir}/gnome-builder/plugins/copyright.plugin
 %{_libdir}/gnome-builder/plugins/copyright_plugin.py
@@ -255,6 +267,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/html_preview.gresource
 %{_libdir}/gnome-builder/plugins/html-preview.plugin
 %{_libdir}/gnome-builder/plugins/html_preview.py
+
+%{_libdir}/gnome-builder/plugins/intelephense.plugin
+%{_libdir}/gnome-builder/plugins/intelephense.py
 
 %{_libdir}/gnome-builder/plugins/jedi-language-server.plugin
 %{_libdir}/gnome-builder/plugins/jedi_language_server_plugin.py
@@ -291,17 +306,21 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/gnome-builder/plugins/rls.plugin
 %{_libdir}/gnome-builder/plugins/rls_plugin.py
 
+%{_libdir}/gnome-builder/plugins/rstcheck.plugin
+%{_libdir}/gnome-builder/plugins/rstcheck_plugin.py
+
+%{_libdir}/gnome-builder/plugins/rubocop.plugin
+%{_libdir}/gnome-builder/plugins/rubocop_plugin.py
+
 %{_libdir}/gnome-builder/plugins/stylelint.plugin
 %{_libdir}/gnome-builder/plugins/stylelint_plugin.py
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.stylelint.gschema.xml
 
+%{_libdir}/gnome-builder/plugins/ts-language-server.plugin
+%{_libdir}/gnome-builder/plugins/ts_language_server_plugin.py
+
 %{_libdir}/gnome-builder/plugins/waf.plugin
 %{_libdir}/gnome-builder/plugins/waf_plugin.py
-
-%if %{with sysprof}
-# not installed since 3.28
-#%{_libdir}/gnome-builder/plugins/sysprof.plugin
-%endif
 
 %{_libdir}/gnome-builder/plugins/vala-pack.plugin
 %{_libdir}/gnome-builder/plugins/vala_pack_plugin.py
@@ -335,7 +354,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
-%{py3_sitescriptdir}/gi/overrides/Ide.py
+%{py3_sitedir}/gi/overrides/Ide.py
 
 %files devel
 %defattr(644,root,root,755)
@@ -343,8 +362,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/gnome-builder-%{apiver}
 %dir %{_datadir}/gnome-builder/gir-1.0
 %{_datadir}/gnome-builder/gir-1.0/Ide-%{abiver}.gir
-%dir %{_libdir}/gnome-builder/pkgconfig
-%{_libdir}/gnome-builder/pkgconfig/gnome-builder-%{version}.pc
+%{_pkgconfigdir}/gnome-builder-%{version}.pc
 
 %if %{with apidocs}
 %files doc
