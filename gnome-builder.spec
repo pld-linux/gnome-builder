@@ -44,7 +44,6 @@ BuildRequires:	libportal-gtk3-devel
 BuildRequires:	libsoup-devel >= 2.52.0
 # -std=c++2a
 BuildRequires:	libstdc++-devel >= 6:8
-BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
 BuildRequires:	meson >= 0.59.1
