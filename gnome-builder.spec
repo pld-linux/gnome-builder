@@ -8,12 +8,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	42.0
-Release:	2
+Version:	42.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/42/%{name}-%{version}.tar.xz
-# Source0-md5:	345023a9d74f96d5c2779cd3943f7956
+# Source0-md5:	eb1fdeb9ecefdebb242834ab332d8e69
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -47,7 +47,7 @@ BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libtool >= 2:2.2
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	meson >= 0.54.0
+BuildRequires:	meson >= 0.59.1
 BuildRequires:	ninja >= 1.5
 BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
@@ -110,6 +110,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		abiver	42.0
 %define		apiver	42
+
+%define		py3_gi_overridesdir	%{py3_sitescriptdir}/gi/overrides
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -354,7 +356,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
-%{py3_sitescriptdir}/gi/overrides/Ide.py
+%{py3_gi_overridesdir}/Ide.py
 
 %files devel
 %defattr(644,root,root,755)
