@@ -1,4 +1,5 @@
 # TODO:
+# - switch to gtk4-update-icon-cache
 # - deviced plugin (BR: libdeviced-devel >= 3.27.4)
 #
 # Conditional build:
@@ -8,107 +9,98 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	42.1
-Release:	3
+Version:	43.7
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/42/%{name}-%{version}.tar.xz
-# Source0-md5:	eb1fdeb9ecefdebb242834ab332d8e69
+Source0:	https://download.gnome.org/sources/gnome-builder/43/%{name}-%{version}.tar.xz
+# Source0-md5:	b11d6b8befbfab2273c9337c93446986
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	cmark-devel >= 0.29.0
 BuildRequires:	desktop-file-utils
-BuildRequires:	devhelp-devel >= 3.26.0
+BuildRequires:	dspy-devel >= 1.4.0
+BuildRequires:	editorconfig-devel
 BuildRequires:	enchant2-devel >= 2
 BuildRequires:	flatpak-devel >= 1.11.2
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
-BuildRequires:	gjs-devel >= 1.42.0
-BuildRequires:	glade-devel >= 3.22.0
-BuildRequires:	glib2-devel >= 1:2.69.1
+BuildRequires:	glib2-devel >= 1:2.73.3
 BuildRequires:	gobject-introspection-devel >= 1.48.0
-BuildRequires:	gspell-devel >= 1.2.0
-BuildRequires:	gtk+3-devel >= 3.24
+BuildRequires:	gtk4-devel >= 4.7.1
 %{?with_apidocs:BuildRequires:	gi-docgen}
-BuildRequires:	gtk-webkit4-devel >= 2.26
-BuildRequires:	gtksourceview4-devel >= 4.0.0
+# gtk-webkit6 (>= 2.40) preferred
+BuildRequires:	gtk-webkit5-devel >= 2.36
+BuildRequires:	gtksourceview5-devel >= 5.5.2
 BuildRequires:	json-glib-devel >= 1.2.0
-BuildRequires:	jsonrpc-glib-devel >= 3.41.0
-BuildRequires:	libdazzle-devel >= 3.37.0
-BuildRequires:	libgit2-glib-devel >= 0.28.0.1
-BuildRequires:	libhandy1-devel >= 1.5.0
-BuildRequires:	libpeas-devel >= 1.22.0
-BuildRequires:	libportal-gtk3-devel
-BuildRequires:	libsoup-devel >= 2.52.0
+BuildRequires:	jsonrpc-glib-devel >= 3.42.0
+BuildRequires:	libadwaita-devel >= 1.2.0
+BuildRequires:	libgit2-glib-devel >= 1.1.0
+BuildRequires:	libpeas-devel >= 1.34.0
+BuildRequires:	libpanel-devel >= 1.0.0
+BuildRequires:	libportal-gtk4-devel
+BuildRequires:	libsoup3-devel >= 3.0
 # -std=c++2a
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	meson >= 0.59.1
+BuildRequires:	meson >= 0.60
 BuildRequires:	ninja >= 1.5
 BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
-BuildRequires:	pcre-devel
 BuildRequires:	pcre2-common-devel
 BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
-BuildRequires:	python3-pygobject3-devel >= 3.22.0
 %{?with_apidocs:BuildRequires:	python3-sphinx_rtd_theme}
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
-%{?with_sysprof:BuildRequires:	sysprof-devel >= 3.37.1}
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.37.1}
+%{?with_sysprof:BuildRequires:	sysprof-devel >= 3.46.0}
+%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.46.0}
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	template-glib-devel >= 3.28.0
+BuildRequires:	template-glib-devel >= 3.36.0
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:	vala-gtksourceview4 >= 4.0.0
-BuildRequires:	vala-libdazzle >= 3.37.0
-BuildRequires:	vala-libgit2-glib >= 0.28.0.1
-BuildRequires:	vala-template-glib >= 3.28.0
-BuildRequires:	vala-vte >= 0.65.0
-BuildRequires:	vte-devel >= 0.65.0
+BuildRequires:	vala-gtksourceview5 >= 5.5.2
+BuildRequires:	vala-libgit2-glib >= 1.1.0
+BuildRequires:	vala-template-glib >= 3.36.0
+BuildRequires:	vte-gtk4-devel >= 0.70.0
 BuildRequires:	xz
 BuildRequires:	yelp-tools
-Requires(post,postun):	glib2 >= 1:2.69.1
+Requires(post,postun):	glib2 >= 1:2.73.3
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	cmark-lib >= 0.29.0
 Requires:	ctags
-Requires:	devhelp-libs >= 3.26.0
+Requires:	dspy-libs >= 1.4.0
 Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 1.11.2
-Requires:	gjs >= 1.42.0
-Requires:	glade-libs >= 3.22.0
-Requires:	glib2 >= 1:2.69.1
-Requires:	gspell >= 1.2.0
-Requires:	gtk+3 >= 3.24
-Requires:	gtk-webkit4 >= 2.26
-Requires:	gtksourceview4 >= 4.0.0
+Requires:	glib2 >= 1:2.73.3
+Requires:	gtk4 >= 4.7.1
+Requires:	gtk-webkit5 >= 2.36
+Requires:	gtksourceview5 >= 5.5.2
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
-Requires:	jsonrpc-glib >= 3.41.0
-Requires:	libdazzle >= 3.37.0
-Requires:	libgit2-glib >= 0.28.0.1
-Requires:	libhandy1 >= 1.5.0
-Requires:	libpeas >= 1.22.0
+Requires:	jsonrpc-glib >= 3.42.0
+Requires:	libadwaita >= 1.5.0
+Requires:	libgit2-glib >= 1.1.0
+Requires:	libpanel >= 1.0.0
+Requires:	libpeas >= 1.34.0
 Requires:	libportal >= 0.3
-Requires:	libsoup >= 2.52.0
+Requires:	libsoup3 >= 3.0
 Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
-Requires:	python3-pygobject3 >= 3.22.0
-%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.37.1}
-Requires:	template-glib >= 3.28.0
-Requires:	vte >= 0.65.0
+%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.46.0}
+Requires:	template-glib >= 3.36.0
+Requires:	vte-gtk4 >= 0.70.0
 Suggests:	python3-jedi
 Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	42.0
-%define		apiver	42
+%define		abiver	43
+%define		apiver	43
 
 %define		py3_gi_overridesdir	%{py3_sitescriptdir}/gi/overrides
 
@@ -127,13 +119,13 @@ Summary:	Development files for GNOME Builder
 Summary(pl.UTF-8):	Pliki programistyczne GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.69.1
-Requires:	gtk+3-devel >= 3.24
-Requires:	gtksourceview4-devel >= 4.0.0
-Requires:	libdazzle-devel >= 3.37.0
-Requires:	libpeas-devel >= 1.22.0
-Requires:	template-glib-devel >= 3.28.0
-Requires:	vte-devel >= 0.46
+Requires:	glib2-devel >= 1:2.73.3
+Requires:	gtk-webkit5-devel >= 2.36
+Requires:	gtk4-devel >= 4.7.1
+Requires:	gtksourceview5-devel >= 5.5.2
+Requires:	libpeas-devel >= 1.34.0
+Requires:	template-glib-devel >= 3.36.0
+Requires:	vte-gtk4-devel >= 0.70.0
 Obsoletes:	gnome-builder-mm-devel < 3.24
 Obsoletes:	vala-gnome-builder < 3.36
 
@@ -183,10 +175,7 @@ grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 	-Dhelp=true \
 %endif
 	-Dplugin_clangd=true \
-	-Dplugin_gvls=true \
-	-Dplugin_rls=true \
-	-Dplugin_sysprof=%{__true_false sysprof} \
-	-Dplugin_vagrant=true
+	-Dplugin_sysprof=%{__true_false sysprof}
 # -Dplugin_deviced=true
 
 %meson_build -C build
@@ -195,6 +184,9 @@ grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
 rm -rf $RPM_BUILD_ROOT
 
 %meson_install -C build
+
+# for external plugins
+install -d $RPM_BUILD_ROOT%{_libdir}/gnome-builder/plugins
 
 %if %{with apidocs}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,_sources,objects.inv}
@@ -231,126 +223,27 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/gnome-builder
 %{_datadir}/gnome-builder/fonts
 %{_datadir}/gnome-builder/icons
-
-%{_libdir}/gnome-builder/plugins/blueprint.plugin
-%{_libdir}/gnome-builder/plugins/blueprint_plugin.py
-%{_datadir}/gtksourceview-4/language-specs/blueprint.lang
-
-%{_libdir}/gnome-builder/plugins/buildstream.plugin
-%{_libdir}/gnome-builder/plugins/buildstream_plugin.py
-
-%{_libdir}/gnome-builder/plugins/cargo.plugin
-%{_libdir}/gnome-builder/plugins/cargo_plugin.py
-
-%{_libdir}/gnome-builder/plugins/clangd.plugin
-%{_libdir}/gnome-builder/plugins/clangd_plugin.py
-
-%{_libdir}/gnome-builder/plugins/copyright.plugin
-%{_libdir}/gnome-builder/plugins/copyright_plugin.py
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.copyright.gschema.xml
-
-%{_libdir}/gnome-builder/plugins/eslint.plugin
-%{_libdir}/gnome-builder/plugins/eslint_plugin.py
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.eslint.gschema.xml
-
-%{_libdir}/gnome-builder/plugins/find-other-file.plugin
-%{_libdir}/gnome-builder/plugins/find_other_file.py
-
-%{_libdir}/gnome-builder/plugins/gjs_symbols.plugin
-%{_libdir}/gnome-builder/plugins/gjs_symbols.py
-
-%{_libdir}/gnome-builder/plugins/go-langserv.plugin
-%{_libdir}/gnome-builder/plugins/go_langserver_plugin.py
-
-%{_libdir}/gnome-builder/plugins/gvls.plugin
-%{_libdir}/gnome-builder/plugins/gvls_plugin.py
-
-%{_libdir}/gnome-builder/plugins/html_preview.gresource
-%{_libdir}/gnome-builder/plugins/html-preview.plugin
-%{_libdir}/gnome-builder/plugins/html_preview.py
-
-%{_libdir}/gnome-builder/plugins/intelephense.plugin
-%{_libdir}/gnome-builder/plugins/intelephense.py
-
-%{_libdir}/gnome-builder/plugins/jedi-language-server.plugin
-%{_libdir}/gnome-builder/plugins/jedi_language_server_plugin.py
-
-%{_libdir}/gnome-builder/plugins/jhbuild.plugin
-%{_libdir}/gnome-builder/plugins/jhbuild_plugin.py
-
-%{_libdir}/gnome-builder/plugins/make.plugin
-%{_libdir}/gnome-builder/plugins/make_plugin.gresource
-%{_libdir}/gnome-builder/plugins/make_plugin.py
-
-%{_libdir}/gnome-builder/plugins/meson-templates.plugin
-%{_libdir}/gnome-builder/plugins/meson_templates.gresource
-%{_libdir}/gnome-builder/plugins/meson_templates.py
-
-%{_libdir}/gnome-builder/plugins/mono.plugin
-%{_libdir}/gnome-builder/plugins/mono_plugin.py
-
-%{_libdir}/gnome-builder/plugins/npm.plugin
-%{_libdir}/gnome-builder/plugins/npm_plugin.py
-
-%{_libdir}/gnome-builder/plugins/phpize.plugin
-%{_libdir}/gnome-builder/plugins/phpize_plugin.py
-
-%{_libdir}/gnome-builder/plugins/python-gi-imports-completion.plugin
-%{_libdir}/gnome-builder/plugins/python_gi_imports_completion.py
-
-%{_libdir}/gnome-builder/plugins/gradle.plugin
-%{_libdir}/gnome-builder/plugins/gradle_plugin.py
-
-%{_libdir}/gnome-builder/plugins/maven.plugin
-%{_libdir}/gnome-builder/plugins/maven_plugin.py
-
-%{_libdir}/gnome-builder/plugins/rls.plugin
-%{_libdir}/gnome-builder/plugins/rls_plugin.py
-
-%{_libdir}/gnome-builder/plugins/rstcheck.plugin
-%{_libdir}/gnome-builder/plugins/rstcheck_plugin.py
-
-%{_libdir}/gnome-builder/plugins/rubocop.plugin
-%{_libdir}/gnome-builder/plugins/rubocop_plugin.py
-
-%{_libdir}/gnome-builder/plugins/stylelint.plugin
-%{_libdir}/gnome-builder/plugins/stylelint_plugin.py
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.stylelint.gschema.xml
-
-%{_libdir}/gnome-builder/plugins/ts-language-server.plugin
-%{_libdir}/gnome-builder/plugins/ts_language_server_plugin.py
-
-%{_libdir}/gnome-builder/plugins/waf.plugin
-%{_libdir}/gnome-builder/plugins/waf_plugin.py
-
-%{_libdir}/gnome-builder/plugins/vala-pack.plugin
-%{_libdir}/gnome-builder/plugins/vala_pack_plugin.py
-
-%{_libdir}/gnome-builder/plugins/vala_langserv.plugin
-%{_libdir}/gnome-builder/plugins/vala_langserv.py
-
-%{_libdir}/gnome-builder/plugins/valgrind.plugin
-%{_libdir}/gnome-builder/plugins/valgrind_plugin.gresource
-%{_libdir}/gnome-builder/plugins/valgrind_plugin.py
-
+%{_datadir}/gnome-builder/styles
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.build.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.clang.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.code-insight.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.copyright.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.debug.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.editor.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.editor.language.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.extension-type.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.gnome-code-assistance.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugin.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.plugins.color_picker_plugin.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project-tree.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.rust-analyzer.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.shellcmd.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.shellcmd.command.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.spelling.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.sysprof.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.terminal.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.workbench.gschema.xml
-%{_datadir}/gtksourceview-4/styles/Adwaita*.style-scheme.xml
-%{_datadir}/gtksourceview-4/styles/builder*.style-scheme.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.valgrind.gschema.xml
 %{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
@@ -359,7 +252,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/gnome-builder
 %{_includedir}/gnome-builder-%{apiver}
 %dir %{_datadir}/gnome-builder/gir-1.0
 %{_datadir}/gnome-builder/gir-1.0/Ide-%{abiver}.gir
