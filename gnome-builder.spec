@@ -10,7 +10,7 @@ Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
 Version:	43.7
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/43/%{name}-%{version}.tar.xz
@@ -82,7 +82,7 @@ Requires:	gtksourceview5 >= 5.5.2
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.42.0
-Requires:	libadwaita >= 1.5.0
+Requires:	libadwaita >= 1.2.0
 Requires:	libgit2-glib >= 1.1.0
 Requires:	libpanel >= 1.0.0
 Requires:	libpeas >= 1.34.0
