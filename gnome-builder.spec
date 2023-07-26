@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	43.7
-Release:	4
+Version:	44.2
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/43/%{name}-%{version}.tar.xz
-# Source0-md5:	b11d6b8befbfab2273c9337c93446986
+Source0:	https://download.gnome.org/sources/gnome-builder/44/%{name}-%{version}.tar.xz
+# Source0-md5:	81985d5bf55185052107bc6b14345cb5
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -27,19 +27,19 @@ BuildRequires:	flatpak-devel >= 1.11.2
 # -std=gnu11 for C
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
-BuildRequires:	glib2-devel >= 1:2.73.3
+BuildRequires:	glib2-devel >= 1:2.75.0
 BuildRequires:	gobject-introspection-devel >= 1.48.0
-BuildRequires:	gtk4-devel >= 4.7.1
+BuildRequires:	gtk4-devel >= 4.8
 %{?with_apidocs:BuildRequires:	gi-docgen}
-# gtk-webkit6 (>= 2.40) preferred
-BuildRequires:	gtk-webkit5-devel >= 2.36
-BuildRequires:	gtksourceview5-devel >= 5.5.2
+BuildRequires:	gtk-webkit6-devel >= 2.40
+BuildRequires:	gtksourceview5-devel >= 5.7.2
 BuildRequires:	json-glib-devel >= 1.2.0
-BuildRequires:	jsonrpc-glib-devel >= 3.42.0
-BuildRequires:	libadwaita-devel >= 1.2.0
+BuildRequires:	jsonrpc-glib-devel >= 3.43.0
+BuildRequires:	libadwaita-devel >= 1.3.0
+BuildRequires:	libdex-devel >= 0.1.1
 BuildRequires:	libgit2-glib-devel >= 1.1.0
 BuildRequires:	libpeas-devel >= 1.34.0
-BuildRequires:	libpanel-devel >= 1.0.0
+BuildRequires:	libpanel-devel >= 1.1.2
 BuildRequires:	libportal-gtk4-devel
 BuildRequires:	libsoup3-devel >= 3.0
 # -std=c++2a
@@ -56,35 +56,37 @@ BuildRequires:	python3-devel >= 1:3.2.3
 %{?with_apidocs:BuildRequires:	python3-sphinx_rtd_theme}
 BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	sed >= 4.0
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
 %{?with_sysprof:BuildRequires:	sysprof-devel >= 3.46.0}
 %{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.46.0}
 BuildRequires:	tar >= 1:1.22
-BuildRequires:	template-glib-devel >= 3.36.0
+BuildRequires:	template-glib-devel >= 3.36.1
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:	vala-gtksourceview5 >= 5.5.2
+BuildRequires:	vala-gtksourceview5 >= 5.7.2
 BuildRequires:	vala-libgit2-glib >= 1.1.0
-BuildRequires:	vala-template-glib >= 3.36.0
+BuildRequires:	vala-template-glib >= 3.36.1
 BuildRequires:	vte-gtk4-devel >= 0.70.0
 BuildRequires:	xz
 BuildRequires:	yelp-tools
-Requires(post,postun):	glib2 >= 1:2.73.3
+Requires(post,postun):	glib2 >= 1:2.75.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	cmark-lib >= 0.29.0
 Requires:	ctags
 Requires:	dspy-libs >= 1.4.0
 Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 1.11.2
-Requires:	glib2 >= 1:2.73.3
-Requires:	gtk4 >= 4.7.1
-Requires:	gtk-webkit5 >= 2.36
-Requires:	gtksourceview5 >= 5.5.2
+Requires:	glib2 >= 1:2.75.0
+Requires:	gtk4 >= 4.8
+Requires:	gtk-webkit6 >= 2.40
+Requires:	gtksourceview5 >= 5.7.2
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
-Requires:	jsonrpc-glib >= 3.42.0
-Requires:	libadwaita >= 1.2.0
+Requires:	jsonrpc-glib >= 3.43.0
+Requires:	libadwaita >= 1.3.0
+Requires:	libdex >= 0.1.1
 Requires:	libgit2-glib >= 1.1.0
-Requires:	libpanel >= 1.0.0
+Requires:	libpanel >= 1.1.2
 Requires:	libpeas >= 1.34.0
 Requires:	libportal >= 0.3
 Requires:	libsoup3 >= 3.0
@@ -92,17 +94,18 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 %{?with_sysprof:Requires:	sysprof-ui-libs >= 3.46.0}
-Requires:	template-glib >= 3.36.0
+Requires:	template-glib >= 3.36.1
 Requires:	vte-gtk4 >= 0.70.0
 Suggests:	python3-jedi
 Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	43
-%define		apiver	43
+%define		abiver	44
+%define		apiver	44
 
-%define		py3_gi_overridesdir	%{py3_sitescriptdir}/gi/overrides
+# must comply to pygobject3 due to "..importer" import
+%define		py3_gi_overridesdir	%{py3_sitedir}/gi/overrides
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -119,12 +122,12 @@ Summary:	Development files for GNOME Builder
 Summary(pl.UTF-8):	Pliki programistyczne GNOME Buildera
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	glib2-devel >= 1:2.73.3
-Requires:	gtk-webkit5-devel >= 2.36
-Requires:	gtk4-devel >= 4.7.1
-Requires:	gtksourceview5-devel >= 5.5.2
+Requires:	glib2-devel >= 1:2.75.0
+Requires:	gtk-webkit6-devel >= 2.40
+Requires:	gtk4-devel >= 4.8
+Requires:	gtksourceview5-devel >= 5.7.2
 Requires:	libpeas-devel >= 1.34.0
-Requires:	template-glib-devel >= 3.36.0
+Requires:	template-glib-devel >= 3.36.1
 Requires:	vte-gtk4-devel >= 0.70.0
 Obsoletes:	gnome-builder-mm-devel < 3.24
 Obsoletes:	vala-gnome-builder < 3.36
@@ -163,19 +166,22 @@ Dokumentacja API bibliotek GNOME Buildera.
 %prep
 %setup -q
 
-grep -rl /usr/bin/env src/plugins src/libide | xargs sed -i -e '1{
-	s,^#!.*bin/env python3,#!%{__python3},
-	s,^#!.*bin/env python$,#!%{__python},
-}'
+# drop useless shebang
+grep -q /usr/bin/env src/libide/Ide.py || exit 1
+%{__sed} -i -e '1d' src/libide/Ide.py
 
 %build
+# python.purelibdir changed to place overrides file properly
+# (possible only because there are no other system-wide python modules installed)
 %meson build \
 %if %{with apidocs}
 	-Ddocs=true \
 	-Dhelp=true \
 %endif
 	-Dplugin_clangd=true \
-	-Dplugin_sysprof=%{__true_false sysprof}
+	-Dplugin_sysprof=%{__true_false sysprof} \
+	-Dpython.bytecompile=2 \
+	-Dpython.purelibdir=%{py3_sitedir}
 # -Dplugin_deviced=true
 
 %meson_build -C build
@@ -234,10 +240,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.editor.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.editor.language.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.extension-type.gschema.xml
+%{_datadir}/glib-2.0/schemas/org.gnome.builder.flatpak.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.plugin.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.project-tree.gschema.xml
-%{_datadir}/glib-2.0/schemas/org.gnome.builder.rust-analyzer.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.shellcmd.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.shellcmd.command.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.spelling.gschema.xml
@@ -249,6 +255,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
 %{py3_gi_overridesdir}/Ide.py
+%{py3_gi_overridesdir}/__pycache__/Ide.cpython-*.py[co]
 
 %files devel
 %defattr(644,root,root,755)
