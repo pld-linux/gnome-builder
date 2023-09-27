@@ -55,7 +55,7 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 %{?with_apidocs:BuildRequires:	python3-sphinx_rtd_theme}
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 1.752
+BuildRequires:	rpmbuild(macros) >= 2.029
 BuildRequires:	sed >= 4.0
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
 %{?with_sysprof:BuildRequires:	sysprof-devel >= 3.46.0}
@@ -197,9 +197,8 @@ install -d $RPM_BUILD_ROOT%{_libdir}/gnome-builder/plugins
 %if %{with apidocs}
 %{__rm} -r $RPM_BUILD_ROOT%{_docdir}/gnome-builder/en/{.buildinfo,_sources,objects.inv}
 
-# FIXME: where to package gi-docgen generated docs?
-install -d $RPM_BUILD_ROOT%{_gtkdocdir}
-%{__mv} $RPM_BUILD_ROOT%{_docdir}/libide $RPM_BUILD_ROOT%{_gtkdocdir}
+install -d $RPM_BUILD_ROOT%{_gidocdir}
+%{__mv} $RPM_BUILD_ROOT%{_docdir}/libide $RPM_BUILD_ROOT%{_gidocdir}
 %endif
 
 %find_lang %{name} --with-gnome
@@ -272,5 +271,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/libide
+%{_gidocdir}/libide
 %endif
