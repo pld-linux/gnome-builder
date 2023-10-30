@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	44.2
-Release:	2
+Version:	45.0
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/44/%{name}-%{version}.tar.xz
-# Source0-md5:	81985d5bf55185052107bc6b14345cb5
+Source0:	https://download.gnome.org/sources/gnome-builder/45/%{name}-%{version}.tar.xz
+# Source0-md5:	dc095a68d1b4d44b7ee7eda5fd3c9c10
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -28,17 +28,17 @@ BuildRequires:	flatpak-devel >= 1.11.2
 BuildRequires:	gcc >= 6:4.7
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.75.0
-BuildRequires:	gobject-introspection-devel >= 1.48.0
-BuildRequires:	gtk4-devel >= 4.8
+BuildRequires:	gobject-introspection-devel >= 1.74
+BuildRequires:	gtk4-devel >= 4.10
 %{?with_apidocs:BuildRequires:	gi-docgen}
 BuildRequires:	gtk-webkit6-devel >= 2.40
-BuildRequires:	gtksourceview5-devel >= 5.7.2
+BuildRequires:	gtksourceview5-devel >= 5.8
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	jsonrpc-glib-devel >= 3.43.0
-BuildRequires:	libadwaita-devel >= 1.3.0
-BuildRequires:	libdex-devel >= 0.1.1
+BuildRequires:	libadwaita-devel >= 1.4
+BuildRequires:	libdex-devel >= 0.2
 BuildRequires:	libgit2-glib-devel >= 1.1.0
-BuildRequires:	libpeas-devel >= 1.34.0
+BuildRequires:	libpeas2-devel >= 2.0
 BuildRequires:	libpanel-devel >= 1.1.2
 BuildRequires:	libportal-gtk4-devel
 BuildRequires:	libsoup3-devel >= 3.0
@@ -58,12 +58,11 @@ BuildRequires:	rpm-build >= 4.6
 BuildRequires:	rpmbuild(macros) >= 2.029
 BuildRequires:	sed >= 4.0
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
-%{?with_sysprof:BuildRequires:	sysprof-devel >= 3.46.0}
-%{?with_sysprof:BuildRequires:	sysprof-ui-devel >= 3.46.0}
+%{?with_sysprof:BuildRequires:	sysprof-devel >= 45.0}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.36.1
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:	vala-gtksourceview5 >= 5.7.2
+BuildRequires:	vala-gtksourceview5 >= 5.8
 BuildRequires:	vala-libgit2-glib >= 1.1.0
 BuildRequires:	vala-template-glib >= 3.36.1
 BuildRequires:	vte-gtk4-devel >= 0.70.0
@@ -77,17 +76,17 @@ Requires:	dspy-libs >= 1.4.0
 Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 1.11.2
 Requires:	glib2 >= 1:2.75.0
-Requires:	gtk4 >= 4.8
+Requires:	gtk4 >= 4.10
 Requires:	gtk-webkit6 >= 2.40
-Requires:	gtksourceview5 >= 5.7.2
+Requires:	gtksourceview5 >= 5.8
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.43.0
-Requires:	libadwaita >= 1.3.0
-Requires:	libdex >= 0.1.1
+Requires:	libadwaita >= 1.4
+Requires:	libdex >= 0.2
 Requires:	libgit2-glib >= 1.1.0
 Requires:	libpanel >= 1.1.2
-Requires:	libpeas >= 1.34.0
+Requires:	libpeas2 >= 2.0
 Requires:	libportal >= 0.3
 Requires:	libsoup3 >= 3.0
 Requires:	libxml2 >= 1:2.9.0
@@ -101,8 +100,8 @@ Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	44
-%define		apiver	44
+%define		abiver	45
+%define		apiver	45
 
 # must comply to pygobject3 due to "..importer" import
 %define		py3_gi_overridesdir	%{py3_sitedir}/gi/overrides
@@ -124,9 +123,9 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.75.0
 Requires:	gtk-webkit6-devel >= 2.40
-Requires:	gtk4-devel >= 4.8
-Requires:	gtksourceview5-devel >= 5.7.2
-Requires:	libpeas-devel >= 1.34.0
+Requires:	gtk4-devel >= 4.10
+Requires:	gtksourceview5-devel >= 5.8
+Requires:	libpeas2-devel >= 2.0
 Requires:	template-glib-devel >= 3.36.1
 Requires:	vte-gtk4-devel >= 0.70.0
 Obsoletes:	gnome-builder-mm-devel < 3.24
