@@ -92,7 +92,6 @@ Requires:	libsoup3 >= 3.0
 Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
-%{?with_sysprof:Requires:	sysprof-ui-libs >= 3.46.0}
 Requires:	template-glib >= 3.36.1
 Requires:	vte-gtk4 >= 0.70.0
 Suggests:	python3-jedi
