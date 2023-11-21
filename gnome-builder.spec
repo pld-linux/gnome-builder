@@ -69,6 +69,7 @@ BuildRequires:	vala-template-glib >= 3.36.1
 BuildRequires:	vte-gtk4-devel >= 0.70.0
 BuildRequires:	xz
 BuildRequires:	yelp-tools
+Requires(post,postun):	desktop-file-utils
 Requires(post,postun):	glib2 >= 1:2.75.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	cmark-lib >= 0.29.0
@@ -209,10 +210,12 @@ rm -rf $RPM_BUILD_ROOT
 %post
 %glib_compile_schemas
 %update_icon_cache hicolor
+%update_desktop_database_post
 
 %postun
 %glib_compile_schemas
 %update_icon_cache hicolor
+%update_desktop_database_postun
 
 %files -f %{name}.lang
 %defattr(644,root,root,755)
