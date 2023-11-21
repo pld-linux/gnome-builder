@@ -184,12 +184,12 @@ grep -q /usr/bin/env src/libide/Ide.py || exit 1
 	-Dpython.purelibdir=%{py3_sitedir}
 # -Dplugin_deviced=true
 
-%meson_build -C build
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%meson_install -C build
+%ninja_install -C build
 
 # for external plugins
 install -d $RPM_BUILD_ROOT%{_libdir}/gnome-builder/plugins
