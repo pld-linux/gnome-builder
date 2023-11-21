@@ -1,0 +1,20 @@
+--- gnome-builder-45.0/src/plugins/xml-pack/ide-xml-formatter.c.orig	2023-09-17 02:27:21.000000000 +0200
++++ gnome-builder-45.0/src/plugins/xml-pack/ide-xml-formatter.c	2023-11-21 19:40:25.054481533 +0100
+@@ -27,6 +27,7 @@
+ 
+ #include <libxml/tree.h>
+ #include <libxml/parser.h>
++#include <libxml/xmlsave.h>
+ 
+ #include "ide-xml-formatter.h"
+ 
+--- gnome-builder-45.0/src/plugins/xml-pack/ide-xml-rng-parser.c.orig	2023-09-17 02:27:21.000000000 +0200
++++ gnome-builder-45.0/src/plugins/xml-pack/ide-xml-rng-parser.c	2023-11-21 19:42:19.008516795 +0100
+@@ -23,6 +23,7 @@
+  * Whole refactoring to match the GNOME Builder needs.
+  */
+ 
++#include <libxml/parser.h>
+ #include <libxml/tree.h>
+ #include <libxml/uri.h>
+ 

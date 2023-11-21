@@ -15,6 +15,7 @@ License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/45/%{name}-%{version}.tar.xz
 # Source0-md5:	dc095a68d1b4d44b7ee7eda5fd3c9c10
+Patch0:		missing-includes.patch
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -163,6 +164,7 @@ Dokumentacja API bibliotek GNOME Buildera.
 
 %prep
 %setup -q
+%patch0 -p1
 
 # drop useless shebang
 grep -q /usr/bin/env src/libide/Ide.py || exit 1
