@@ -9,13 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	45.0
-Release:	4
+Version:	46.1
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/45/%{name}-%{version}.tar.xz
-# Source0-md5:	dc095a68d1b4d44b7ee7eda5fd3c9c10
-Patch0:		missing-includes.patch
+Source0:	https://download.gnome.org/sources/gnome-builder/46/%{name}-%{version}.tar.xz
+# Source0-md5:	d0f8a9592c6bf6f6be4ebc2064c0e901
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -25,8 +24,9 @@ BuildRequires:	dspy-devel >= 1.4.0
 BuildRequires:	editorconfig-devel
 BuildRequires:	enchant2-devel >= 2
 BuildRequires:	flatpak-devel >= 1.11.2
-# -std=gnu11 for C
-BuildRequires:	gcc >= 6:4.7
+# -std=gnu11 for C requires >= 4.7
+# but gcc 10 is not sufficient for src/libide/terminal/ide-terminal-palettes.h, which relies of constant evaluation of sizeof-driven ?: operator
+BuildRequires:	gcc >= 6:11
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.75.0
 BuildRequires:	gobject-introspection-devel >= 1.74
@@ -36,11 +36,12 @@ BuildRequires:	gtk-webkit6-devel >= 2.40
 BuildRequires:	gtksourceview5-devel >= 5.8
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	jsonrpc-glib-devel >= 3.43.0
-BuildRequires:	libadwaita-devel >= 1.4
+BuildRequires:	libadwaita-devel >= 1.5
 BuildRequires:	libdex-devel >= 0.2
 BuildRequires:	libgit2-glib-devel >= 1.1.0
+BuildRequires:	libicu-devel
 BuildRequires:	libpeas2-devel >= 2.0
-BuildRequires:	libpanel-devel >= 1.1.2
+BuildRequires:	libpanel-devel >= 1.5.0
 BuildRequires:	libportal-gtk4-devel
 BuildRequires:	libsoup3-devel >= 3.0
 # -std=c++2a
@@ -66,7 +67,7 @@ BuildRequires:	vala >= 2:0.30.0.55
 BuildRequires:	vala-gtksourceview5 >= 5.8
 BuildRequires:	vala-libgit2-glib >= 1.1.0
 BuildRequires:	vala-template-glib >= 3.36.1
-BuildRequires:	vte-gtk4-devel >= 0.70.0
+BuildRequires:	vte-gtk4-devel >= 0.76.0
 BuildRequires:	xz
 BuildRequires:	yelp-tools
 Requires(post,postun):	desktop-file-utils
@@ -84,10 +85,10 @@ Requires:	gtksourceview5 >= 5.8
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.43.0
-Requires:	libadwaita >= 1.4
+Requires:	libadwaita >= 1.5
 Requires:	libdex >= 0.2
 Requires:	libgit2-glib >= 1.1.0
-Requires:	libpanel >= 1.1.2
+Requires:	libpanel >= 1.5.0
 Requires:	libpeas2 >= 2.0
 Requires:	libportal >= 0.3
 Requires:	libsoup3 >= 3.0
@@ -95,14 +96,14 @@ Requires:	libxml2 >= 1:2.9.0
 Requires:	pango >= 1:1.38.0
 Requires:	python3-modules >= 1:3.2.3
 Requires:	template-glib >= 3.36.1
-Requires:	vte-gtk4 >= 0.70.0
+Requires:	vte-gtk4 >= 0.76.0
 Suggests:	python3-jedi
 Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	45
-%define		apiver	45
+%define		abiver	46
+%define		apiver	46
 
 # must comply to pygobject3 due to "..importer" import
 %define		py3_gi_overridesdir	%{py3_sitedir}/gi/overrides
@@ -128,7 +129,7 @@ Requires:	gtk4-devel >= 4.10
 Requires:	gtksourceview5-devel >= 5.8
 Requires:	libpeas2-devel >= 2.0
 Requires:	template-glib-devel >= 3.36.1
-Requires:	vte-gtk4-devel >= 0.70.0
+Requires:	vte-gtk4-devel >= 0.76.0
 Obsoletes:	gnome-builder-mm-devel < 3.24
 Obsoletes:	vala-gnome-builder < 3.36
 
@@ -165,7 +166,6 @@ Dokumentacja API bibliotek GNOME Buildera.
 
 %prep
 %setup -q
-%patch0 -p1
 
 # drop useless shebang
 grep -q /usr/bin/env src/libide/Ide.py || exit 1
