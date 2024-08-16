@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	46.2
-Release:	2
+Version:	46.3
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/46/%{name}-%{version}.tar.xz
-# Source0-md5:	03fa7b0a57bf1699a4e47f06823e2610
+# Source0-md5:	10804c34efbc7856afe8706410e563fc
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -25,9 +25,9 @@ BuildRequires:	editorconfig-devel
 BuildRequires:	enchant2-devel >= 2
 BuildRequires:	flatpak-devel >= 1.11.2
 # -std=gnu11 for C requires >= 4.7
-# but gcc 10 is not sufficient for src/libide/terminal/ide-terminal-palettes.h, which relies of constant evaluation of sizeof-driven ?: operator
+# but gcc 11 is not sufficient for src/libide/terminal/ide-terminal-palettes.h, which relies of constant evaluation of sizeof-driven ?: operator
 # (error: initializer element is not constant)
-BuildRequires:	gcc >= 6:11
+BuildRequires:	gcc >= 6:12
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.75.0
 BuildRequires:	gobject-introspection-devel >= 1.74
