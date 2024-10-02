@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	46.3
+Version:	47.1
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/46/%{name}-%{version}.tar.xz
-# Source0-md5:	10804c34efbc7856afe8706410e563fc
+Source0:	https://download.gnome.org/sources/gnome-builder/47/%{name}-%{version}.tar.xz
+# Source0-md5:	e6e467920d2b70c044d180cf89d609ee
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
@@ -31,20 +31,22 @@ BuildRequires:	gcc >= 6:12
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.75.0
 BuildRequires:	gobject-introspection-devel >= 1.74
-BuildRequires:	gtk4-devel >= 4.10
+BuildRequires:	gom-devel
+BuildRequires:	gtk4-devel >= 4.15.5
 %{?with_apidocs:BuildRequires:	gi-docgen}
 BuildRequires:	gtk-webkit6-devel >= 2.40
 BuildRequires:	gtksourceview5-devel >= 5.8
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	jsonrpc-glib-devel >= 3.43.0
-BuildRequires:	libadwaita-devel >= 1.5
-BuildRequires:	libdex-devel >= 0.2
+BuildRequires:	libadwaita-devel >= 1.6
+BuildRequires:	libdex-devel >= 0.7
 BuildRequires:	libgit2-glib-devel >= 1.1.0
 BuildRequires:	libicu-devel
 BuildRequires:	libpeas2-devel >= 2.0
-BuildRequires:	libpanel-devel >= 1.5.0
+BuildRequires:	libpanel-devel >= 1.7.0
 BuildRequires:	libportal-gtk4-devel
 BuildRequires:	libsoup3-devel >= 3.0
+BuildRequires:	libspelling-devel >= 0.3
 # -std=c++2a
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libxml2-devel >= 1:2.9.0
@@ -80,16 +82,16 @@ Requires:	dspy-libs >= 1.4.0
 Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 1.11.2
 Requires:	glib2 >= 1:2.75.0
-Requires:	gtk4 >= 4.10
+Requires:	gtk4 >= 4.15.5
 Requires:	gtk-webkit6 >= 2.40
 Requires:	gtksourceview5 >= 5.8
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.43.0
-Requires:	libadwaita >= 1.5
-Requires:	libdex >= 0.2
+Requires:	libadwaita >= 1.6
+Requires:	libdex >= 0.7
 Requires:	libgit2-glib >= 1.1.0
-Requires:	libpanel >= 1.5.0
+Requires:	libpanel >= 1.7.0
 Requires:	libpeas2 >= 2.0
 Requires:	libportal >= 0.3
 Requires:	libsoup3 >= 3.0
@@ -103,11 +105,8 @@ Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	46
-%define		apiver	46
-
-# must comply to pygobject3 due to "..importer" import
-%define		py3_gi_overridesdir	%{py3_sitedir}/gi/overrides
+%define		abiver	47
+%define		apiver	47
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -126,7 +125,7 @@ Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.75.0
 Requires:	gtk-webkit6-devel >= 2.40
-Requires:	gtk4-devel >= 4.10
+Requires:	gtk4-devel >= 4.15.5
 Requires:	gtksourceview5-devel >= 5.8
 Requires:	libpeas2-devel >= 2.0
 Requires:	template-glib-devel >= 3.36.1
@@ -168,22 +167,14 @@ Dokumentacja API bibliotek GNOME Buildera.
 %prep
 %setup -q
 
-# drop useless shebang
-grep -q /usr/bin/env src/libide/Ide.py || exit 1
-%{__sed} -i -e '1d' src/libide/Ide.py
-
 %build
-# python.purelibdir changed to place overrides file properly
-# (possible only because there are no other system-wide python modules installed)
 %meson build \
 %if %{with apidocs}
 	-Ddocs=true \
 	-Dhelp=true \
 %endif
 	-Dplugin_clangd=true \
-	-Dplugin_sysprof=%{__true_false sysprof} \
-	-Dpython.bytecompile=2 \
-	-Dpython.purelibdir=%{py3_sitedir}
+	-Dplugin_sysprof=%{__true_false sysprof}
 # -Dplugin_deviced=true
 
 %ninja_build -C build
@@ -230,6 +221,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libexecdir}/gnome-builder-flatpak
 %attr(755,root,root) %{_libexecdir}/gnome-builder-git
 %dir %{_datadir}/gnome-builder
+%{_datadir}/gnome-builder/clang-format
 %{_datadir}/gnome-builder/fonts
 %{_datadir}/gnome-builder/icons
 %{_datadir}/gnome-builder/styles
@@ -257,8 +249,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_desktopdir}/org.gnome.Builder.desktop
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
-%{py3_gi_overridesdir}/Ide.py
-%{py3_gi_overridesdir}/__pycache__/Ide.cpython-*.py[co]
 
 %files devel
 %defattr(644,root,root,755)
