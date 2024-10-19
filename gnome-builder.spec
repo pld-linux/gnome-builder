@@ -247,8 +247,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.valgrind.gschema.xml
 %{_datadir}/metainfo/org.gnome.Builder.appdata.xml
 %{_desktopdir}/org.gnome.Builder.desktop
-%{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder-symbolic.svg
 %{_iconsdir}/hicolor/scalable/apps/org.gnome.Builder.svg
+%{_iconsdir}/hicolor/symbolic/apps/org.gnome.Builder-symbolic.svg
 
 %files devel
 %defattr(644,root,root,755)
