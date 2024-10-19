@@ -9,12 +9,12 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	47.1
+Version:	47.2
 Release:	1
 License:	GPL v3+
 Group:		X11/Applications
 Source0:	https://download.gnome.org/sources/gnome-builder/47/%{name}-%{version}.tar.xz
-# Source0-md5:	e6e467920d2b70c044d180cf89d609ee
+# Source0-md5:	c04cea46be80d1342c6cad765c54d442
 URL:		https://wiki.gnome.org/Apps/Builder
 BuildRequires:	appstream-glib
 BuildRequires:	clang-devel >= 3.5
