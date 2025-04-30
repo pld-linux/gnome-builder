@@ -9,25 +9,24 @@
 Summary:	IDE for writing GNOME-based software
 Summary(pl.UTF-8):	IDE do tworzenia oprogramowania opartego na GNOME
 Name:		gnome-builder
-Version:	47.2
-Release:	3
+Version:	48.0
+Release:	1
 License:	GPL v3+
 Group:		X11/Applications
-Source0:	https://download.gnome.org/sources/gnome-builder/47/%{name}-%{version}.tar.xz
-# Source0-md5:	c04cea46be80d1342c6cad765c54d442
-URL:		https://wiki.gnome.org/Apps/Builder
-BuildRequires:	appstream-glib
+Source0:	https://download.gnome.org/sources/gnome-builder/48/%{name}-%{version}.tar.xz
+# Source0-md5:	b84daa997b7fccac07ef93cf25e4202e
+URL:		https://apps.gnome.org/Builder/
+BuildRequires:	AppStream
 BuildRequires:	clang-devel >= 3.5
 BuildRequires:	cmark-devel >= 0.29.0
 BuildRequires:	desktop-file-utils
-BuildRequires:	dspy-devel >= 1.4.0
 BuildRequires:	editorconfig-devel
 BuildRequires:	enchant2-devel >= 2
 BuildRequires:	flatpak-devel >= 1.11.2
 # -std=gnu11 for C requires >= 4.7
-# but gcc 11 is not sufficient for src/libide/terminal/ide-terminal-palettes.h, which relies of constant evaluation of sizeof-driven ?: operator
+# but gcc 12 is not sufficient for src/libide/terminal/ide-terminal-palettes.h, which relies of constant evaluation of sizeof-driven ?: operator
 # (error: initializer element is not constant)
-BuildRequires:	gcc >= 6:12
+BuildRequires:	gcc >= 6:13
 BuildRequires:	gettext-tools >= 0.19.8
 BuildRequires:	glib2-devel >= 1:2.75.0
 BuildRequires:	gobject-introspection-devel >= 1.74
@@ -35,7 +34,7 @@ BuildRequires:	gom-devel
 BuildRequires:	gtk4-devel >= 4.15.5
 %{?with_apidocs:BuildRequires:	gi-docgen}
 BuildRequires:	gtk-webkit6-devel >= 2.40
-BuildRequires:	gtksourceview5-devel >= 5.8
+BuildRequires:	gtksourceview5-devel >= 5.15
 BuildRequires:	json-glib-devel >= 1.2.0
 BuildRequires:	jsonrpc-glib-devel >= 3.43.0
 BuildRequires:	libadwaita-devel >= 1.6
@@ -47,11 +46,11 @@ BuildRequires:	libpanel-devel >= 1.7.0
 BuildRequires:	libportal-gtk4-devel
 BuildRequires:	libsoup3-devel >= 3.0
 BuildRequires:	libspelling-devel >= 0.3
-# -std=c++2a
+# -std=gnu++2a
 BuildRequires:	libstdc++-devel >= 6:8
 BuildRequires:	libxml2-devel >= 1:2.9.0
 BuildRequires:	llvm-devel >= 3.5
-BuildRequires:	meson >= 0.60
+BuildRequires:	meson >= 1.4.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	ostree-devel
 BuildRequires:	pango-devel >= 1:1.38.0
@@ -60,14 +59,14 @@ BuildRequires:	pkgconfig >= 1:0.22
 BuildRequires:	python3-devel >= 1:3.2.3
 %{?with_apidocs:BuildRequires:	python3-sphinx_rtd_theme}
 BuildRequires:	rpm-build >= 4.6
-BuildRequires:	rpmbuild(macros) >= 2.029
+BuildRequires:	rpmbuild(macros) >= 2.042
 BuildRequires:	sed >= 4.0
 %{?with_apidocs:BuildRequires:	sphinx-pdg-3}
 %{?with_sysprof:BuildRequires:	sysprof-devel >= 45.0}
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	template-glib-devel >= 3.36.1
 BuildRequires:	vala >= 2:0.30.0.55
-BuildRequires:	vala-gtksourceview5 >= 5.8
+BuildRequires:	vala-gtksourceview5 >= 5.15
 BuildRequires:	vala-libgit2-glib >= 1.1.0
 BuildRequires:	vala-template-glib >= 3.36.1
 BuildRequires:	vte-gtk4-devel >= 0.76.0
@@ -78,13 +77,14 @@ Requires(post,postun):	glib2 >= 1:2.75.0
 Requires(post,postun):	gtk-update-icon-cache
 Requires:	cmark-lib >= 0.29.0
 Requires:	ctags
-Requires:	dspy-libs >= 1.4.0
+# for dspy plugin
+Requires:	dspy >= 48
 Requires:	enchant2 >= 2
 Requires:	flatpak-libs >= 1.11.2
 Requires:	glib2 >= 1:2.75.0
 Requires:	gtk4 >= 4.15.5
 Requires:	gtk-webkit6 >= 2.40
-Requires:	gtksourceview5 >= 5.8
+Requires:	gtksourceview5 >= 5.15
 Requires:	hicolor-icon-theme
 Requires:	json-glib >= 1.2.0
 Requires:	jsonrpc-glib >= 3.43.0
@@ -105,8 +105,8 @@ Suggests:	python3-lxml
 Obsoletes:	gnome-builder-mm < 3.24
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		abiver	47
-%define		apiver	47
+%define		abiver	48
+%define		apiver	48
 
 %description
 Builder attempts to be an IDE for writing software for GNOME. It does
@@ -126,7 +126,7 @@ Requires:	%{name} = %{version}-%{release}
 Requires:	glib2-devel >= 1:2.75.0
 Requires:	gtk-webkit6-devel >= 2.40
 Requires:	gtk4-devel >= 4.15.5
-Requires:	gtksourceview5-devel >= 5.8
+Requires:	gtksourceview5-devel >= 5.15
 Requires:	libpeas2-devel >= 2.0
 Requires:	template-glib-devel >= 3.36.1
 Requires:	vte-gtk4-devel >= 0.76.0
@@ -168,7 +168,7 @@ Dokumentacja API bibliotek GNOME Buildera.
 %setup -q
 
 %build
-%meson build \
+%meson \
 %if %{with apidocs}
 	-Ddocs=true \
 	-Dhelp=true \
@@ -177,12 +177,12 @@ Dokumentacja API bibliotek GNOME Buildera.
 	-Dplugin_sysprof=%{__true_false sysprof}
 # -Dplugin_deviced=true
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 # for external plugins
 install -d $RPM_BUILD_ROOT%{_libdir}/gnome-builder/plugins
@@ -224,7 +224,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gnome-builder/clang-format
 %{_datadir}/gnome-builder/fonts
 %{_datadir}/gnome-builder/icons
-%{_datadir}/gnome-builder/styles
 %{_datadir}/dbus-1/services/org.gnome.Builder.service
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.gschema.xml
 %{_datadir}/glib-2.0/schemas/org.gnome.builder.build.gschema.xml
